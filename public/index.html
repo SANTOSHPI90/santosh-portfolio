@@ -1,0 +1,2123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>Santosh Kumar | Portfolio</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        
+        body { color: #1e293b; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
+        .accent-text {
+            background: linear-gradient(90deg, #fbbf24, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .custom-card {
+            background: rgba(255, 255, 255, 0.75); 
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+            transform-style: preserve-3d;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .custom-card:hover { border-color: #fbbf24; background-color: rgba(255, 255, 255, 0.95); }
+        
+        .news-container { max-height: 600px; overflow-y: auto; }
+        .loader {
+            border: 4px solid rgba(52, 211, 153, 0.1);
+            border-top: 4px solid #fbbf24;
+            border-radius: 50%;
+            width: 40px; height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .news-container::-webkit-scrollbar { width: 8px; }
+        .news-container::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.05); border-radius: 10px; }
+        .news-container::-webkit-scrollbar-thumb { background: rgba(52, 211, 153, 0.3); border-radius: 10px; }
+        .news-container::-webkit-scrollbar-thumb:hover { background: #fbbf24; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .spin-icon { animation: spin 1s linear infinite; }
+        .typed-cursor { font-size: 1.1em; color: #fbbf24; }
+        
+        .fade-ad { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0.3; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .fade-insight { animation: insightFade 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes insightFade {
+            0% { opacity: 0; transform: translateY(10px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* =========================================
+            StudioKit Scoped CSS (Integrated)
+            ========================================= */
+        .studiokit-wrapper {
+            --sk-primary: #4f46e5;
+            --sk-primary-hover: #4338ca;
+            --sk-secondary: #10b981;
+            --sk-secondary-hover: #059669;
+            --sk-surface: rgba(255, 255, 255, 0.75);
+            --sk-surface-solid: #ffffff;
+            --sk-text-main: #0f172a;
+            --sk-text-muted: #64748b;
+            --sk-border: rgba(203, 213, 225, 0.6);
+            --sk-radius-xl: 24px;
+            --sk-radius-lg: 16px;
+            --sk-radius-md: 12px;
+            --sk-shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+            --sk-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+            width: 100%;
+        }
+
+        .sk-nav-menu { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; border-bottom: 1px solid var(--sk-border); padding-bottom: 1rem; }
+        .sk-nav-btn { background: transparent; border: none; color: var(--sk-text-muted); font-weight: 600; font-size: 0.95rem; padding: 0.8rem 1.5rem; border-radius: 12px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .sk-nav-btn:hover { color: var(--sk-primary); background: rgba(79, 70, 229, 0.08); }
+        .sk-nav-btn.active { color: var(--sk-primary); background: rgba(79, 70, 229, 0.12); box-shadow: inset 0 0 0 1px rgba(79, 70, 229, 0.2); }
+
+        .sk-tool-section { display: none; animation: sk-fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; max-width: 1400px; margin: 0 auto; }
+        .sk-tool-section.active { display: block; }
+        @keyframes sk-fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        .sk-header { margin-bottom: 2.5rem; text-align: center; }
+        .sk-h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em; color: #0f172a; margin-bottom: 0.5rem; line-height: 1.2; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;}
+        .sk-subtitle { color: var(--sk-text-muted); font-size: 1.1rem; font-weight: 500; }
+        .sk-badge { background: rgba(79, 70, 229, 0.1); color: var(--sk-primary); padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.85rem; font-weight: 700; vertical-align: middle; }
+
+        .sk-dashboard { display: grid; grid-template-columns: 380px 1fr; gap: 2.5rem; align-items: start; }
+        .sk-single-column { max-width: 850px; margin: 0 auto; display: flex; flex-direction: column; gap: 2.5rem; }
+        @media (max-width: 1024px) { .sk-dashboard { grid-template-columns: 1fr; } }
+
+        .sk-panel { background: var(--sk-surface); backdrop-filter: blur(20px); border-radius: var(--sk-radius-xl); padding: 2.5rem; box-shadow: var(--sk-shadow-soft); border: 1px solid rgba(255, 255, 255, 0.6); transition: transform 0.3s ease; }
+        .sk-control-group { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem; }
+        .sk-control-group:last-child { margin-bottom: 0; }
+        .studiokit-wrapper label { font-weight: 700; font-size: 0.95rem; color: var(--sk-text-main); display: flex; justify-content: space-between; margin: 0;}
+        
+        .sk-file-upload-wrapper { position: relative; border: 2px dashed var(--sk-border); border-radius: var(--sk-radius-md); padding: 2rem 1.5rem; text-align: center; background: rgba(255,255,255,0.5); transition: all 0.3s ease; cursor: pointer; }
+        .sk-file-upload-wrapper:hover { border-color: var(--sk-primary); background: rgba(79, 70, 229, 0.03); }
+        .sk-file-upload-wrapper input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        .sk-file-upload-wrapper .sk-upload-text { font-weight: 600; color: var(--sk-primary); margin-bottom: 4px; }
+        .sk-file-upload-wrapper .sk-upload-subtext { font-size: 0.8rem; color: var(--sk-text-muted); }
+
+        .studiokit-wrapper input[type="color"] { width: 100%; height: 50px; border: none; border-radius: var(--sk-radius-md); cursor: pointer; padding: 0; background: none; }
+        .studiokit-wrapper input[type="color"]::-webkit-color-swatch { border: 2px solid var(--sk-border); border-radius: var(--sk-radius-md); }
+        
+        .sk-border-controls { display: flex; align-items: center; gap: 1rem; background: var(--sk-surface-solid); padding: 0.6rem; border-radius: var(--sk-radius-md); border: 1px solid var(--sk-border); box-shadow: var(--sk-shadow-inner);}
+        .sk-border-controls input[type="color"] { width: 36px; height: 36px; border-radius: 8px;}
+        .sk-border-controls input[type="range"] { flex: 1; }
+        
+        .studiokit-wrapper input[type="range"] { -webkit-appearance: none; width: 100%; height: 6px; background: #e2e8f0; border-radius: 5px; outline: none; margin-top: 0.5rem; }
+        .studiokit-wrapper input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--sk-primary); cursor: pointer; transition: transform 0.1s; }
+        .studiokit-wrapper input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+        .sk-checkbox-group { display: flex; align-items: center; gap: 0.75rem; background: var(--sk-surface-solid); padding: 1.2rem; border-radius: var(--sk-radius-md); border: 1px solid var(--sk-border); box-shadow: var(--sk-shadow-inner);}
+        .sk-checkbox-group input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--sk-primary); cursor: pointer; }
+        .sk-checkbox-group label { cursor: pointer; font-weight: 600; margin:0; justify-content: flex-start; gap: 8px;}
+
+        .sk-btn-action { background: var(--sk-primary); color: white; border: none; padding: 1.1rem 1.5rem; border-radius: var(--sk-radius-md); cursor: pointer; font-weight: 700; font-size: 1rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; justify-content: center; align-items: center; gap: 0.5rem; width: 100%; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25); }
+        .sk-btn-action:hover:not(:disabled) { background: var(--sk-primary-hover); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35); }
+        .sk-btn-action:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; box-shadow: none; color: #94a3b8;}
+        
+        .sk-btn-secondary { background: var(--sk-secondary); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);}
+        .sk-btn-secondary:hover:not(:disabled) { background: var(--sk-secondary-hover); box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35); }
+        
+        .sk-btn-outline { background: transparent; border: 2px solid var(--sk-primary); color: var(--sk-primary); box-shadow: none;}
+        .sk-btn-outline:hover:not(:disabled) { background: rgba(79, 70, 229, 0.05); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);}
+
+        .sk-workspace { display: flex; flex-direction: column; gap: 2rem; }
+        .sk-preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--sk-border); padding-bottom: 1rem; }
+        .sk-preview-header h2 { font-size: 1.25rem; font-weight: 700; color: var(--sk-text-main); margin:0;}
+        
+        .sk-canvas-container { display: flex; justify-content: center; align-items: center; background: rgba(241, 245, 249, 0.5); border-radius: var(--sk-radius-lg); padding: 2.5rem; overflow: auto; border: 1px dashed var(--sk-border); min-height: 250px;}
+        
+        #previewCanvas { width: 210px; height: 270px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); background-color: #fff; border-radius: 4px; }
+        #stripCanvas { max-width: 100%; height: auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); background-color: white; border-radius: 4px;}
+        
+        .sk-converter-preview-canvas { max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); background: white; display: none; }
+        #toneCanvas { max-width: 100%; max-height: 500px; border-radius: 12px; box-shadow: 0 15px 35px -5px rgba(0,0,0,0.15); display: none; object-fit: contain; }
+        
+        .sk-image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+        .sk-image-grid img { width: 100%; height: 140px; object-fit: cover; border-radius: 12px; border: 2px solid var(--sk-border); box-shadow: var(--sk-shadow-soft);}
+
+        .sk-stats-box { display: flex; justify-content: space-between; background: var(--sk-surface-solid); border: 1px solid var(--sk-border); border-radius: var(--sk-radius-md); padding: 1.5rem; margin: 1rem 0; box-shadow: var(--sk-shadow-inner); }
+        .sk-stat-item { display: flex; flex-direction: column; gap: 0.5rem; align-items: center; flex: 1; }
+        .sk-stat-label { font-size: 0.85rem; color: var(--sk-text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
+        .sk-stat-value { font-size: 1.6rem; font-weight: 800; color: var(--sk-text-main); }
+        .sk-stat-divider { width: 1px; background: var(--sk-border); margin: 0 1rem; }
+        .sk-value-green { color: var(--sk-secondary); }
+
+        .sk-hint-text { color: var(--sk-text-muted); font-size: 0.85rem; margin-top: 6px; font-weight: 500;}
+        .sk-error-msg { color: #ef4444; font-size: 0.9rem; font-weight: 600; display: none; margin-top: 0.5rem; background: #fef2f2; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid #fecaca; }
+        
+        .sk-btn-compare { background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .sk-btn-compare:hover:not(:disabled) { background: #e2e8f0; color: #0f172a; }
+        .sk-btn-compare:active:not(:disabled) { background: var(--sk-primary); color: white; border-color: var(--sk-primary);}
+        .sk-btn-compare:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* =========================================
+            Markets Dashboard Scoped CSS
+            ========================================= */
+        .markets-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 800px;
+            background-color: #131722;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+        @media (min-width: 768px) {
+            .markets-wrapper { flex-direction: row; }
+        }
+        .markets-sidebar {
+            width: 100%;
+            background-color: #1e222d;
+            border-right: 1px solid #2b2b43;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        @media (min-width: 768px) {
+            .markets-sidebar { width: 280px; }
+        }
+        .markets-sidebar-header { padding: 20px; font-size: 1.2rem; font-weight: bold; color: white; border-bottom: 1px solid #2b2b43; text-align: center; }
+        .markets-sidebar details { border-bottom: 1px solid #2b2b43; }
+        .markets-sidebar summary { padding: 15px 20px; font-size: 1.1rem; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: #ffffff; transition: background 0.2s; }
+        .markets-sidebar summary:hover { background-color: #2a2e39; }
+        .markets-sidebar summary::after { content: '▼'; font-size: 0.8rem; color: #787b86; }
+        .markets-sidebar details[open] summary::after { content: '▲'; }
+        .markets-menu-item { padding: 12px 20px 12px 40px; cursor: pointer; font-size: 0.95rem; color: #b2b5be; transition: all 0.2s; }
+        .markets-menu-item:hover, .markets-menu-item.active { background-color: #2a2e39; color: #2962ff; border-left: 4px solid #2962ff; padding-left: 36px; }
+        .markets-main { flex: 1; display: flex; flex-direction: column; padding: 20px; gap: 20px; background-color: #131722; overflow-y: auto; }
+        .markets-widget-box { background: #1e222d; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border: 1px solid #2b2b43; overflow: hidden; }
+        .markets-price { height: 130px; }
+        .markets-chart { flex: 1; min-height: 400px; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen relative">
+
+    <div class="fixed inset-0 z-[-1]">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover" alt="tech background">
+        <div class="absolute inset-0 bg-stone-100/50 backdrop-blur-[2px]"></div>
+    </div>
+
+    <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 bg-amber-400 text-emerald-950 p-4 rounded-full shadow-[0_0_20px_rgba(251,191,36,0.3)] translate-y-24 opacity-0 transition-all duration-500 z-50 hover:bg-amber-300 hover:scale-110 border-2 border-amber-200">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <nav class="fixed top-0 w-full bg-white/70 backdrop-blur-md z-50 border-b border-gray-200/50">
+        <div class="max-w-6xl mx-auto p-6 flex justify-between items-center">
+            <div class="text-xl font-bold tracking-widest text-emerald-600 uppercase">Santosh Kumar</div>
+            <button id="mobile-menu-btn" class="md:hidden text-emerald-600 hover:text-amber-600 focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+            <div class="space-x-8 hidden md:flex items-center text-zinc-800 font-semibold">
+                <a href="#about" class="hover:text-amber-600 transition text-sm uppercase tracking-wider drop-shadow-sm">About</a>
+                <a href="#services" class="hover:text-amber-600 transition text-sm uppercase tracking-wider drop-shadow-sm">Services</a>
+                <a href="#tools" class="hover:text-amber-600 transition text-sm uppercase tracking-wider drop-shadow-sm">Tools</a>
+                <a href="#markets" class="hover:text-amber-600 transition text-sm uppercase tracking-wider drop-shadow-sm">Markets</a>
+                <a href="#booking" class="hover:text-amber-600 transition text-sm uppercase tracking-wider drop-shadow-sm">Consulting</a>
+                <a href="#weather" class="hover:text-amber-600 transition text-sm uppercase tracking-wider drop-shadow-sm">Weather</a>
+                <a href="#news" class="hover:text-amber-600 transition text-sm uppercase tracking-wider drop-shadow-sm">News</a>
+                <a href="#blog" class="hover:text-amber-600 transition text-sm uppercase tracking-wider drop-shadow-sm">Blog</a>
+                <a href="#projects" class="hover:text-amber-600 transition text-sm uppercase tracking-wider drop-shadow-sm">Projects</a>
+                <a href="#contact" class="px-6 py-2 border-2 border-amber-400 bg-white text-amber-500 rounded-full hover:bg-amber-400 hover:text-white transition font-bold text-sm tracking-wider shadow-sm">Work With Me</a>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 border-b border-gray-200/50 px-6 py-4 space-y-4 text-center backdrop-blur-md">
+            <a href="#about" class="block hover:text-amber-600 transition text-sm font-bold uppercase tracking-wider text-zinc-800 mobile-link">About</a>
+            <a href="#services" class="block hover:text-amber-600 transition text-sm font-bold uppercase tracking-wider text-zinc-800 mobile-link">Services</a>
+            <a href="#tools" class="block hover:text-amber-600 transition text-sm font-bold uppercase tracking-wider text-zinc-800 mobile-link">Tools</a>
+            <a href="#markets" class="block hover:text-amber-600 transition text-sm font-bold uppercase tracking-wider text-zinc-800 mobile-link">Markets</a>
+            <a href="#booking" class="block hover:text-amber-600 transition text-sm font-bold uppercase tracking-wider text-zinc-800 mobile-link">Consulting</a>
+            <a href="#weather" class="block hover:text-amber-600 transition text-sm font-bold uppercase tracking-wider text-zinc-800 mobile-link">Weather</a>
+            <a href="#news" class="block hover:text-amber-600 transition text-sm font-bold uppercase tracking-wider text-zinc-800 mobile-link">News</a>
+            <a href="#blog" class="block hover:text-amber-600 transition text-sm font-bold uppercase tracking-wider text-zinc-800 mobile-link">Blog</a>
+            <a href="#projects" class="block hover:text-amber-600 transition text-sm font-bold uppercase tracking-wider text-zinc-800 mobile-link">Projects</a>
+            <a href="#contact" class="inline-block px-6 py-2 mt-2 border-2 border-amber-400 text-amber-500 rounded-full hover:bg-amber-400 hover:text-white transition font-bold text-sm tracking-wider mobile-link">Work With Me</a>
+        </div>
+    </nav>
+
+    <header id="about" class="pt-48 pb-24 flex flex-col items-center justify-center text-center px-4 relative z-10">
+        <img data-aos="zoom-in" src="santosh image.jpg" alt="My Profile Photo" class="w-32 h-32 rounded-full border-4 border-amber-400 mb-6 object-cover shadow-[0_0_30px_rgba(251,191,36,0.5)]" onerror="this.src='https://placehold.co/128x128/f1f5f9/166534?text=SK'">
+        <span data-aos="fade-up" data-aos-delay="100" class="text-amber-600 font-mono font-bold mb-4 tracking-widest uppercase text-sm drop-shadow-md bg-white/50 px-4 py-1 rounded-full">Welcome to my digital space</span>
+        <h1 data-aos="fade-up" data-aos-delay="200" class="text-5xl md:text-7xl font-black mb-6 tracking-tight min-h-[140px] md:min-h-[100px] text-zinc-900 drop-shadow-lg"> 
+            Solve Problems with <br class="md:hidden">
+            <span class="accent-text" id="typed-text"></span>
+        </h1>
+        <p data-aos="fade-up" data-aos-delay="300" class="text-zinc-800 font-medium bg-white/60 p-4 rounded-xl backdrop-blur-sm shadow-sm max-w-2xl text-lg mb-10 leading-relaxed border border-white/40"> 
+            I am a web developer passionate about Sociology and tech, education, information technology, health, fitness, computer, mobile, shopping, business, agriculture, blending technical skill with a deep understanding of social systems.
+        </p>
+        <div data-aos="fade-up" data-aos-delay="400" class="flex flex-col sm:flex-row gap-6">
+            <a href="#services" class="px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-500 transition shadow-[0_0_20px_rgba(16,185,129,0.5)] hover:-translate-y-1">View My Expertise</a>
+            <a href="#contact" class="px-10 py-4 text-zinc-900 bg-white/80 font-bold rounded-full border border-gray-300 hover:bg-white backdrop-blur-md transition hover:-translate-y-1 shadow-md">Let's talk</a>
+        </div>
+    </header>
+
+    <section id="services" class="max-w-6xl mx-auto px-6 py-24 w-full relative z-10">
+        <div data-aos="fade-right" class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4 bg-white/60 p-6 rounded-2xl backdrop-blur-sm border border-white/50 shadow-sm inline-block">
+            <div>
+                <h2 class="text-4xl font-bold text-zinc-900">My Creations</h2>
+                <p class="text-emerald-700 mt-2 font-mono font-semibold">01 // What I bring to the table</p>
+            </div>
+        </div>
+        
+        <h3 data-aos="fade-right" class="text-2xl font-bold mb-4 text-zinc-900 drop-shadow-sm bg-white/60 inline-block px-4 py-1 rounded-lg">Web Development :-</h3>
+        <section id="web-dev" class="max-w-6xl mx-auto px-0 py-10">
+            <div data-aos="fade-up" class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-zinc-900 mb-4 drop-shadow-md">Core <span class="accent-text">Specializations</span></h2>
+                <div class="h-1 w-24 bg-emerald-600 mx-auto rounded-full shadow-md"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-6 gap-6">
+                <div data-aos="fade-up" data-aos-delay="100" class="md:col-span-2 p-8 rounded-3xl bg-white/85 backdrop-blur-md border border-gray-200 shadow-xl hover:shadow-emerald-500/20 transition-all duration-300 hover:-translate-y-2">
+                    <div class="text-emerald-600 font-mono mb-4 text-lg font-bold">01 //</div>
+                    <h3 class="text-xl font-bold text-zinc-900 mb-3">Frontend Architecture</h3>
+                    <p class="text-zinc-700 font-medium leading-relaxed">1. Front-End Development (The "User-Facing" Side)<br>HTML5 & CSS3:<br>JavaScript (ES6+):<br>Front-End Frameworks: React (Most popular), Vue.js, Angular<br>State Management: Handling data across complex apps using tools like Redux, Zustand, or Context API.</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="200" class="md:col-span-2 p-8 rounded-3xl bg-white/85 backdrop-blur-md border border-gray-200 shadow-xl hover:shadow-amber-500/20 transition-all duration-300 hover:-translate-y-2">
+                    <div class="text-amber-600 font-mono mb-4 text-lg font-bold">02 //</div>
+                    <h3 class="text-xl font-bold text-zinc-900 mb-3">Logic & Algorithms</h3>
+                    <p class="text-zinc-700 font-medium leading-relaxed">2. Back-End Development (The "Server" Side)<br>This involves the logic, databases, and server configurations that power the front end.<br>Programming Languages: Node.js, Python, Java, PHP.<br>API Development: Creating RESTful APIs or GraphQL.<br>Auth: Implementing secure logins using JWT or OAuth.</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="300" class="md:col-span-2 p-8 rounded-3xl bg-white/85 backdrop-blur-md border border-gray-200 shadow-xl hover:shadow-sky-500/20 transition-all duration-300 hover:-translate-y-2">
+                    <div class="text-sky-600 font-mono mb-4 text-lg font-bold">03 //</div>
+                    <h3 class="text-xl font-bold text-zinc-900 mb-3">System Performance</h3>
+                    <p class="text-zinc-700 font-medium leading-relaxed">3. Database Management<br>Relational Databases (SQL): PostgreSQL or MySQL.<br>NoSQL Databases: MongoDB or Firebase.<br>Caching: Using tools like Redis to speed up application performance.</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="400" class="md:col-span-3 p-8 rounded-3xl bg-white/85 backdrop-blur-md border border-gray-200 shadow-xl hover:shadow-indigo-500/20 transition-all duration-300 hover:-translate-y-2">
+                    <div class="text-indigo-600 font-mono mb-4 text-lg font-bold">04 //</div>
+                    <h3 class="text-xl font-bold text-zinc-900 mb-3">User Experience</h3>
+                    <p class="text-zinc-700 font-medium leading-relaxed">4. DevOps & Deployment<br>Git & GitHub: Version control.<br>Cloud Hosting: AWS, Google Cloud, or Vercel/Netlify.<br>CI/CD: "Continuous Integration and Continuous Deployment" pipelines.<br>Docker: Containerization helps ensure your app runs the same on every machine.</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="500" class="md:col-span-3 p-8 rounded-3xl bg-white/85 backdrop-blur-md border border-gray-200 shadow-xl hover:shadow-rose-500/20 transition-all duration-300 hover:-translate-y-2">
+                    <div class="text-rose-600 font-mono mb-4 text-lg font-bold">05 //</div>
+                    <h3 class="text-xl font-bold text-zinc-900 mb-3">Security & Scalability</h3>
+                    <p class="text-zinc-700 font-medium leading-relaxed">5. Soft Skills & Problem Solving<br>Data Structures & Algorithms (DSA): Essential for writing efficient code.<br>UI/UX Basics: Bridging the gap between mockup and product.<br>Debugging: Methodically find and fix errors across the stack.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="social-research" class="max-w-4xl mx-auto px-0 py-10">
+            <div data-aos="fade-right" class="mb-8 bg-white/60 inline-block p-4 rounded-2xl backdrop-blur-sm border border-white/50 shadow-sm">
+                <h2 class="text-4xl font-bold text-zinc-900 mb-2">Social <span class="text-amber-600">Research</span></h2>
+                <div class="h-1 w-20 bg-emerald-600 rounded-full"></div>
+            </div>
+            <div data-aos="zoom-in-up" class="bg-white/90 backdrop-blur-xl border border-gray-200 p-8 md:p-12 rounded-3xl shadow-2xl space-y-8">
+                <p class="text-emerald-800 font-medium leading-relaxed text-lg">1. Theoretical Foundations (The Sociological Lens)<br>Before touching data, a researcher must understand the structures they are measuring.<br>Social Stratification: An interest in how class, race, gender, and education levels create inequalities in society.<br>Institutional Analysis: Studying how systems like healthcare, government, and religion influence individual choices.<br>Micro vs. Macro Perspectives: The ability to switch between looking at individual interactions (Symbolic Interactionism) and large-scale societal shifts (Functionalism or Conflict Theory).</p>
+                <p class="text-amber-800 font-medium leading-relaxed text-lg">2. Quantitative Data Analysis<br>This is the "hard science" side of social research, turning human behavior into measurable patterns.<br>Statistical Literacy: Interest in moving beyond averages to understand correlation vs. causation, significance levels, and regression analysis.<br>Survey Methodology: Designing unbiased questions and understanding sampling techniques (e.g., random vs. stratified sampling) to ensure a study represents the real world.<br>Demographics: Using large datasets (like Census data) to track population trends, migration, and aging.</p>
+                <p class="text-sky-800 font-medium leading-relaxed text-lg">3. Qualitative Depth<br>Data isn't always numbers; sometimes it’s language, observation, and context.<br>Ethnography & Observation: An interest in "immersion"—spending time within a community to understand their lived reality from the inside.<br>Thematic Coding: The skill of taking hours of interviews or pages of text and identifying recurring patterns or "themes."<br>Content Analysis: Analyzing media, historical documents, or social media trends to see how cultural narratives change over time.</p>
+                <p class="text-purple-800 font-medium leading-relaxed text-lg">4. Technical & Analytical Tools<br>Modern social research requires a "tech stack" similar to data science but applied to human problems.<br>Statistical Software: Learning tools like SPSS, Stata, or R to process complex social surveys.<br>Python for Social Science: Using libraries like Pandas or Matplotlib to scrape social media data or visualize demographic shifts.<br>Data Visualization: The ability to tell a story with data, making complex social trends understandable to the public or policymakers.</p>
+                <p class="text-rose-800 font-medium leading-relaxed text-lg">5. Ethics and Reflexivity<br>Research Ethics: A deep commitment to participant anonymity, informed consent, and "doing no harm."<br>Reflexivity: The self-awareness to recognize your own biases as a researcher and how they might influence your interpretation of the data.</p>
+            </div>
+        </section>
+
+        <div data-aos="flip-up" class="p-10 bg-white/85 backdrop-blur-xl border border-gray-200 rounded-2xl mt-12 shadow-lg">
+            <h3 class="text-2xl font-bold mb-6 flex items-center gap-3 text-zinc-900"><span class="text-amber-600">⚡</span> Problem Solving & DSA</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <p class="text-emerald-700 font-bold font-mono text-sm uppercase">Data Structures</p>
+                    <ul class="text-zinc-800 font-medium list-disc list-inside">
+                        <li>Arrays, HashMaps, & Trees</li>
+                        <li>Stack/Queue Implementation</li>
+                    </ul>
+                </div>
+                <div class="space-y-2">
+                    <p class="text-emerald-700 font-bold font-mono text-sm uppercase">Algorithms</p>
+                    <ul class="text-zinc-800 font-medium list-disc list-inside">
+                        <li>Binary Search & Sorting</li>
+                        <li>Dynamic Programming</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div data-aos="zoom-in" data-tilt data-tilt-glare data-tilt-max-glare="0.2" class="p-10 custom-card rounded-2xl mt-8 mb-4 cursor-pointer shadow-lg bg-white/85">
+            <h3 class="text-2xl font-bold mb-4 text-zinc-900 translate-z-10" style="transform: translateZ(20px);">Specialized Consulting</h3>
+            <p class="text-zinc-700 font-medium leading-relaxed mb-4 translate-z-10" style="transform: translateZ(30px);">Specialized Consultation in finance, marketing, business, study, family, agriculture, health and much more, you just tell me the areas where you need consultation, i am there for you.</p>
+            <a href="#booking" class="text-amber-600 font-bold hover:underline inline-block translate-z-10 bg-amber-50 px-4 py-2 rounded-lg" style="transform: translateZ(40px);">Get a Consultation →</a>
+        </div>
+    </section>
+
+    <section id="tools" class="max-w-6xl mx-auto px-6 py-20 w-full relative z-10">
+        
+        <div data-aos="fade-up" class="w-full bg-[#E2E9F0]/80 backdrop-blur-md rounded-3xl p-8 md:p-12 text-center mb-10 shadow-sm border border-white/50 mx-auto max-w-5xl">
+            <h2 class="text-4xl md:text-5xl font-black text-[#1F2937] mb-4 flex items-center justify-center gap-3">
+                <span class="text-amber-500 text-5xl">⚡</span> StudioKit Pro Utilities
+            </h2>
+            <p class="text-indigo-800 font-medium text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+                A suite of premium, browser-native tools for editing images and documents<br class="hidden md:block"> without sending your data to any server.
+            </p>
+        </div>
+
+        <div class="studiokit-wrapper bg-white/60 backdrop-blur-xl border border-gray-200 rounded-[2rem] p-6 md:p-8 shadow-2xl">
+            
+            <div class="sk-nav-menu">
+                <button class="sk-nav-btn active" onclick="switchTab('passport', this)">Passport Photo</button>
+                <button class="sk-nav-btn" onclick="switchTab('toneEnhancer', this)">Tone Enhancer</button>
+                <button class="sk-nav-btn" onclick="switchTab('pdf2jpg', this)">PDF to JPEG</button>
+                <button class="sk-nav-btn" onclick="switchTab('jpg2pdf', this)">JPEG to PDF</button>
+                <button class="sk-nav-btn" onclick="switchTab('compressImg', this)">Compress Image</button>
+                <button class="sk-nav-btn" onclick="switchTab('compressPdf', this)">Compress PDF</button>
+            </div>
+
+            <div id="passport" class="sk-tool-section active">
+                <div class="sk-header">
+                    <h1 class="sk-h1">Indian Passport Photo Generator<span class="sk-badge">3.5 x 4.5 cm</span></h1>
+                    <p class="sk-subtitle">Studio-grade processing at 300 DPI high-resolution print quality</p>
+                </div>
+
+                <div class="sk-dashboard">
+                    <div class="sk-panel">
+                        <div class="sk-control-group">
+                            <label>1. Upload Original Photo</label>
+                            <div class="sk-file-upload-wrapper">
+                                <div class="sk-upload-text">Click or drag to upload</div>
+                                <div class="sk-upload-subtext">JPG, PNG supported</div>
+                                <input type="file" id="imageUpload" accept="image/png, image/jpeg">
+                            </div>
+                        </div>
+                        <div class="sk-control-group">
+                            <label for="bgColor">2. Select Background Color</label>
+                            <input type="color" id="bgColor" value="#0055ff">
+                            <p class="sk-hint-text" id="colorHint">*Color appears behind subject after BG removal.</p>
+                        </div>
+                        <div class="sk-control-group">
+                            <label>3. Border Color & Thickness</label>
+                            <div class="sk-border-controls">
+                                <input type="color" id="strokeColor" value="#000000">
+                                <input type="range" id="strokeWidth" min="0" max="20" value="3">
+                                <span id="strokeVal" style="min-width:35px; text-align:right; font-weight:700;">3px</span>
+                            </div>
+                        </div>
+                        <div class="sk-control-group">
+                            <label>4. Image Quality</label>
+                            <div class="sk-checkbox-group">
+                                <input type="checkbox" id="autoEnhance" checked>
+                                <label for="autoEnhance">Enable Studio Auto-Enhance</label>
+                            </div>
+                        </div>
+                        <div class="sk-control-group" style="margin-top: 1rem;">
+                            <button id="removeBgBtn" class="sk-btn-action" disabled>✨ Magic Remove Background</button>
+                            <div id="errorMsg" class="sk-error-msg"></div>
+                        </div>
+                        <div class="sk-control-group" style="margin-top: 0.5rem; border-top: 1px solid var(--sk-border); padding-top: 1.5rem;">
+                            <button id="downloadBtn" class="sk-btn-action sk-btn-secondary" disabled>↓ Download HD Print Strip</button>
+                        </div>
+                    </div>
+
+                    <div class="sk-workspace">
+                        <div class="sk-panel">
+                            <div class="sk-preview-header">
+                                <h2>Live Preview</h2>
+                                <span class="sk-hint-text">Rendered at 300 DPI</span>
+                            </div>
+                            <div class="sk-canvas-container">
+                                <canvas id="previewCanvas"></canvas>
+                            </div>
+                        </div>
+                        <div class="sk-panel">
+                            <div class="sk-preview-header">
+                                <h2>Final Print Strip Layout</h2>
+                                <span class="sk-hint-text">Standard A4/4x6 Ready</span>
+                            </div>
+                            <div class="sk-canvas-container">
+                                <canvas id="stripCanvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="toneEnhancer" class="sk-tool-section">
+                <div class="sk-header">
+                    <h1 class="sk-h1">Image Tone Enhancer</h1>
+                    <p class="sk-subtitle">Make portraits look fairer and more vibrant without losing originality.</p>
+                </div>
+
+                <div class="sk-dashboard">
+                    <div class="sk-panel">
+                        <div class="sk-control-group">
+                            <label>1. Upload Portrait</label>
+                            <div class="sk-file-upload-wrapper">
+                                <div class="sk-upload-text">Select Image to Enhance</div>
+                                <div class="sk-upload-subtext">Best for faces and portraits</div>
+                                <input type="file" id="toneUpload" accept="image/png, image/jpeg, image/webp">
+                            </div>
+                        </div>
+
+                        <div class="sk-control-group">
+                            <label>
+                                <span>Tone / Fairness</span>
+                                <span id="toneValDisplay" style="color:var(--sk-primary);">0</span>
+                            </label>
+                            <input type="range" class="full-width" id="toneSlider" min="0" max="100" value="0" disabled>
+                            <p class="sk-hint-text">Intelligently illuminates skin tones and lifts shadows.</p>
+                        </div>
+
+                        <div class="sk-control-group">
+                            <label>
+                                <span>Vibrance</span>
+                                <span id="vibranceValDisplay" style="color:var(--sk-primary);">0</span>
+                            </label>
+                            <input type="range" class="full-width" id="vibranceSlider" min="-50" max="100" value="0" disabled>
+                        </div>
+
+                        <div class="sk-control-group">
+                            <label>
+                                <span>Clarity / Contrast</span>
+                                <span id="clarityValDisplay" style="color:var(--sk-primary);">0</span>
+                            </label>
+                            <input type="range" class="full-width" id="claritySlider" min="-50" max="100" value="0" disabled>
+                        </div>
+
+                        <div class="sk-control-group" style="margin-top: 1.5rem;">
+                            <button id="autoFairnessBtn" class="sk-btn-action sk-btn-outline" disabled>✨ Auto-Fairness (Preserve Original)</button>
+                        </div>
+
+                        <div class="sk-control-group" style="margin-top: 1rem; border-top: 1px solid var(--sk-border); padding-top: 1.5rem;">
+                            <button id="downloadToneBtn" class="sk-btn-action sk-btn-secondary" disabled>↓ Download Enhanced Image</button>
+                        </div>
+                    </div>
+
+                    <div class="sk-workspace">
+                        <div class="sk-panel" style="height: fit-content;">
+                            <div class="sk-preview-header">
+                                <h2>Enhancement Preview</h2>
+                                <button id="compareToneBtn" class="sk-btn-compare" disabled>Hold to Compare Original</button>
+                            </div>
+                            <div class="sk-canvas-container" style="min-height: 400px; padding: 1rem;">
+                                <p id="tonePlaceholderText" class="sk-hint-text">Upload a photo to see enhancements...</p>
+                                <canvas id="toneCanvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pdf2jpg" class="sk-tool-section">
+                <div class="sk-header">
+                    <h1 class="sk-h1">Convert PDF to High-Res JPEG</h1>
+                    <p class="sk-subtitle">Extract pages from PDF documents directly in your browser.</p>
+                </div>
+                
+                <div class="sk-single-column">
+                    <div class="sk-panel">
+                        <div class="sk-control-group">
+                            <label>Upload PDF Document</label>
+                            <div class="sk-file-upload-wrapper">
+                                <div class="sk-upload-text">Select PDF File</div>
+                                <input type="file" id="pdfUpload" accept="application/pdf">
+                            </div>
+                        </div>
+                        <div class="sk-control-group" style="margin-top: 1rem;">
+                            <button id="processPdfBtn" class="sk-btn-action" disabled>📄 Render PDF Page 1</button>
+                        </div>
+                    </div>
+
+                    <div class="sk-panel">
+                        <div class="sk-preview-header">
+                            <h2>Rendered Image Preview</h2>
+                        </div>
+                        <div class="sk-canvas-container">
+                            <canvas id="pdfRenderCanvas" class="sk-converter-preview-canvas"></canvas>
+                            <p id="pdfPlaceholderText" class="sk-hint-text">Upload a PDF to see preview...</p>
+                        </div>
+                        <div class="sk-control-group" style="margin-top: 1.5rem;">
+                            <button id="downloadPdfToJpgBtn" class="sk-btn-action sk-btn-secondary" style="display: none;">↓ Download as JPEG</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="jpg2pdf" class="sk-tool-section">
+                <div class="sk-header">
+                    <h1 class="sk-h1">Images to PDF Document</h1>
+                    <p class="sk-subtitle">Combine multiple JPEGs/PNGs into a single PDF file.</p>
+                </div>
+
+                <div class="sk-single-column">
+                    <div class="sk-panel">
+                        <div class="sk-control-group">
+                            <label>Select Images (Multiple allowed)</label>
+                            <div class="sk-file-upload-wrapper">
+                                <div class="sk-upload-text">Select Multiple Images</div>
+                                <div class="sk-upload-subtext">Hold Ctrl/Cmd to select multiple</div>
+                                <input type="file" id="jpgUpload" accept="image/jpeg, image/png" multiple>
+                            </div>
+                        </div>
+                        <div class="sk-image-grid" id="jpgPreviewGrid"></div>
+                    </div>
+
+                    <div class="sk-panel">
+                        <div class="sk-control-group">
+                            <button id="generatePdfBtn" class="sk-btn-action sk-btn-secondary" disabled>📑 Generate & Download PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="compressImg" class="sk-tool-section">
+                <div class="sk-header">
+                    <h1 class="sk-h1">Compress Image (KB/MB)</h1>
+                    <p class="sk-subtitle">Reduce image file size while maintaining original dimensions.</p>
+                </div>
+
+                <div class="sk-single-column">
+                    <div class="sk-panel">
+                        <div class="sk-control-group">
+                            <label>Upload Image to Compress</label>
+                            <div class="sk-file-upload-wrapper">
+                                <div class="sk-upload-text">Select Image File</div>
+                                <input type="file" id="compImgUpload" accept="image/jpeg, image/png, image/webp">
+                            </div>
+                        </div>
+                        
+                        <div class="sk-stats-box">
+                            <div class="sk-stat-item">
+                                <span class="sk-stat-label">Original Size</span>
+                                <span class="sk-stat-value" id="origImgSize">0 KB</span>
+                            </div>
+                            <div class="sk-stat-divider"></div>
+                            <div class="sk-stat-item">
+                                <span class="sk-stat-label">New Size</span>
+                                <span class="sk-stat-value sk-value-green" id="newImgSize">0 KB</span>
+                            </div>
+                        </div>
+
+                        <div class="sk-control-group">
+                            <label>
+                                <span>Target Compression Quality</span>
+                                <span id="imgQualityText" style="color:var(--sk-primary);">80%</span>
+                            </label>
+                            <input type="range" id="imgQualitySlider" class="full-width" min="1" max="100" value="80" disabled>
+                            <p class="sk-hint-text">Lower quality = Smaller KB/MB size. Dimensions stay identical.</p>
+                        </div>
+
+                        <div class="sk-control-group" style="margin-top: 1rem;">
+                            <button id="downloadCompImgBtn" class="sk-btn-action sk-btn-secondary" disabled>↓ Download Compressed Image</button>
+                        </div>
+                    </div>
+                    <canvas id="compImgCanvas" style="display:none;"></canvas>
+                </div>
+            </div>
+
+            <div id="compressPdf" class="sk-tool-section">
+                <div class="sk-header">
+                    <h1 class="sk-h1">Compress PDF (KB/MB)</h1>
+                    <p class="sk-subtitle">Reduce PDF file size securely in your browser.</p>
+                </div>
+
+                <div class="sk-single-column">
+                    <div class="sk-panel">
+                        <div class="sk-control-group">
+                            <label>Upload PDF to Compress</label>
+                            <div class="sk-file-upload-wrapper">
+                                <div class="sk-upload-text">Select Heavy PDF</div>
+                                <input type="file" id="compPdfUpload" accept="application/pdf">
+                            </div>
+                        </div>
+
+                        <div class="sk-stats-box">
+                            <div class="sk-stat-item">
+                                <span class="sk-stat-label">Original Size</span>
+                                <span class="sk-stat-value" id="origPdfSize">0 KB</span>
+                            </div>
+                            <div class="sk-stat-divider"></div>
+                            <div class="sk-stat-item">
+                                <span class="sk-stat-label">Est. New Size</span>
+                                <span class="sk-stat-value sk-value-green" id="newPdfSize">Upload to calc...</span>
+                            </div>
+                        </div>
+
+                        <div class="sk-control-group">
+                            <label>
+                                <span>Compression Level</span>
+                                <span id="pdfQualityText" style="color:var(--sk-primary);">Medium (60%)</span>
+                            </label>
+                            <input type="range" id="pdfQualitySlider" class="full-width" min="10" max="100" value="60" disabled step="5">
+                            <p class="sk-hint-text">Note: PDF will be flattened (text converted to images) to achieve extreme compression while keeping page size.</p>
+                        </div>
+
+                        <div class="sk-control-group" style="margin-top: 1rem;">
+                            <button id="processCompPdfBtn" class="sk-btn-action sk-btn-secondary" disabled>⚙️ Compress & Download PDF</button>
+                        </div>
+                    </div>
+                    <canvas id="compPdfCanvas" style="display:none;"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="markets" class="max-w-6xl mx-auto px-6 py-20 w-full relative z-10">
+        <div data-aos="fade-up" class="w-full bg-[#E2E9F0]/80 backdrop-blur-md rounded-3xl p-8 md:p-12 text-center mb-10 shadow-sm border border-white/50 mx-auto max-w-5xl">
+            <h2 class="text-4xl md:text-5xl font-black text-[#1F2937] mb-4 flex items-center justify-center gap-3">
+                <span class="text-amber-500 text-5xl">📈</span> Pro Markets Dashboard
+            </h2>
+            <p class="text-indigo-800 font-medium text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+                Track live prices and interactive charts for major global indices, cryptocurrencies, and forex right here.
+            </p>
+        </div>
+
+        <div class="markets-wrapper" data-aos="zoom-in-up">
+            <div class="markets-sidebar">
+                <div class="markets-sidebar-header">Market Explorer</div>
+
+                <details open>
+                    <summary>Indices</summary>
+                    <div class="markets-menu-item" onclick="loadMarketAsset(this, 'FOREXCOM:NSXUSD')">US 100 (Nasdaq)</div>
+                    <div class="markets-menu-item" onclick="loadMarketAsset(this, 'FOREXCOM:GER40')">DAX (Germany)</div>
+                    <div class="markets-menu-item" onclick="loadMarketAsset(this, 'NSEIX:NIFTY1!')">GIFT Nifty</div>
+                    <div class="markets-menu-item" onclick="loadMarketAsset(this, 'FOREXCOM:SPXUSD')">S&P 500</div>
+                    <div class="markets-menu-item" onclick="loadMarketAsset(this, 'BSE:SENSEX')">BSE Sensex</div>
+                </details>
+
+                <details>
+                    <summary>Crypto</summary>
+                    <div class="markets-menu-item" onclick="loadMarketAsset(this, 'BINANCE:BTCUSDT')">Bitcoin (BTC)</div>
+                    <div class="markets-menu-item" onclick="loadMarketAsset(this, 'BINANCE:ETHUSDT')">Ethereum (ETH)</div>
+                    <div class="markets-menu-item" onclick="loadMarketAsset(this, 'BINANCE:SOLUSDT')">Solana (SOL)</div>
+                    <div class="markets-menu-item" onclick="loadMarketAsset(this, 'BINANCE:XRPUSDT')">Ripple (XRP)</div>
+                </details>
+
+                <details>
+                    <summary>Currencies</summary>
+                    <div class="markets-menu-item" onclick="loadMarketAsset(this, 'FX_IDC:USDINR')">USD / INR</div>
+                </details>
+            </div>
+
+            <div class="markets-main">
+                <div class="markets-widget-box markets-price" id="price-widget-wrapper">
+                    </div>
+
+                <div class="markets-widget-box markets-chart" id="tv_chart">
+                    </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking" class="max-w-4xl mx-auto px-6 py-20 w-full text-center relative z-10">
+        <h2 data-aos="fade-up" class="text-4xl md:text-5xl font-bold text-zinc-900 mb-4 drop-shadow-sm bg-white/60 inline-block px-6 py-2 rounded-2xl">Need <span class="accent-text">Expert Guidance?</span></h2>
+        <p data-aos="fade-up" data-aos-delay="100" class="text-zinc-800 font-medium text-lg mb-12 mt-6 leading-relaxed max-w-2xl mx-auto bg-white/70 p-4 rounded-xl shadow-sm backdrop-blur-sm">
+            Book a one-on-one specialized consultation session with me. I offer insights into web development, sociology, business, agriculture, finance, and career planning.
+        </p>
+        
+        <div data-aos="zoom-in" data-aos-delay="200" class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-3xl p-10 md:p-14 shadow-2xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-amber-400/20 rounded-full blur-3xl group-hover:bg-amber-400/40 transition-all duration-700"></div>
+            <div class="absolute bottom-0 left-0 -ml-8 -mb-8 w-32 h-32 bg-emerald-400/20 rounded-full blur-3xl group-hover:bg-emerald-400/40 transition-all duration-700"></div>
+            <div class="text-6xl mb-6">🗓️</div>
+            <h3 class="text-3xl font-bold text-zinc-900 mb-4 relative z-10">Schedule a Strategy Call</h3>
+            <p class="text-zinc-700 font-medium mb-10 relative z-10 max-w-lg mx-auto">Pick a date and time that works best for you. Let's tackle your toughest challenges and build a roadmap for your success.</p>
+            <a href="https://calendly.com/dainmarkdhawan62030/new-meeting" target="_blank" class="relative z-10 inline-flex items-center gap-3 px-10 py-5 bg-amber-400 text-emerald-950 font-black rounded-full hover:bg-amber-500 hover:scale-105 transition-all duration-300 uppercase tracking-widest shadow-[0_10px_25px_rgba(251,191,36,0.4)] text-sm">
+                <span>Book Consultation Now</span> <span class="text-xl">→</span>
+            </a>
+        </div>
+    </section>
+
+    <section id="weather" class="max-w-6xl mx-auto px-6 py-12 w-full relative z-10">
+        <div class="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-6 bg-white/60 p-6 rounded-3xl backdrop-blur-sm border border-white/50 shadow-sm">
+            <div data-aos="fade-right">
+                <h2 class="text-4xl font-bold text-zinc-900 mb-2">Live <span class="text-amber-600">Weather</span></h2>
+                <p class="text-emerald-700 font-bold font-mono italic">Basdewa, Madhepura, Bihar</p>
+                <div class="h-1 w-24 bg-amber-400 mt-4 rounded-full"></div>
+            </div>
+            <button data-aos="fade-left" onclick="fetchWeather()" class="px-6 py-3 bg-emerald-600 text-white font-bold rounded-xl hover:bg-amber-500 hover:text-white transition flex items-center gap-3 shadow-[0_5px_15px_rgba(16,185,129,0.4)] group hover:shadow-[0_5px_20px_rgba(251,191,36,0.5)]">
+                <span id="weather-refresh-icon" class="text-xl group-hover:rotate-180 transition-transform duration-500">🔄</span> Update Weather
+            </button>
+        </div>
+        <div data-aos="zoom-in-up" class="relative overflow-hidden rounded-3xl bg-white/85 border border-gray-200 shadow-2xl p-8 md:p-10 backdrop-blur-xl min-h-[250px]">
+            <div id="weather-loader" class="loader"></div>
+            <div id="weather-content" class="hidden"></div>
+        </div>
+    </section>
+
+    <section id="news" class="max-w-6xl mx-auto px-6 py-12 w-full relative z-10">
+        <div class="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-6 bg-white/60 p-6 rounded-3xl backdrop-blur-sm border border-white/50 shadow-sm">
+            <div data-aos="fade-right">
+                <h2 class="text-4xl font-bold text-zinc-900 mb-2">Live <span class="text-amber-600">Updates</span></h2>
+                <p class="text-emerald-700 font-bold font-mono italic">Top 25 stories from Media Houses & Local Bihar News</p>
+                <div class="h-1 w-24 bg-amber-400 mt-4 rounded-full"></div>
+                <p id="last-updated" class="text-xs text-zinc-600 mt-2 font-bold font-mono"></p>
+            </div>
+            <button data-aos="fade-left" onclick="fetchNews()" class="px-6 py-3 bg-emerald-600 text-white font-bold rounded-xl hover:bg-amber-500 hover:text-white transition flex items-center gap-3 shadow-[0_5px_15px_rgba(16,185,129,0.4)] group hover:shadow-[0_5px_20px_rgba(251,191,36,0.5)]">
+                <span id="refresh-icon" class="text-xl group-hover:rotate-180 transition-transform duration-500">🔄</span> Refresh News
+            </button>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <div data-aos="fade-up" data-aos-delay="100" class="bg-white/85 border border-gray-200 rounded-3xl p-6 shadow-xl hover:shadow-[0_10px_30px_rgba(16,185,129,0.2)] transition-shadow backdrop-blur-xl">
+                <h3 class="text-xl font-bold text-emerald-700 mb-6 flex items-center gap-2 bg-emerald-50 w-fit px-4 py-2 rounded-xl"><span>📰</span> Top Media Headlines</h3>
+                <div id="national-news-loader" class="loader"></div>
+                <div id="national-news-container" class="news-container space-y-4 pr-2"></div>
+            </div>
+
+            <div data-aos="fade-up" data-aos-delay="200" class="bg-white/85 border border-gray-200 rounded-3xl p-6 shadow-xl hover:shadow-[0_10px_30px_rgba(251,191,36,0.2)] transition-shadow backdrop-blur-xl">
+                <h3 class="text-xl font-bold text-amber-700 mb-6 flex items-center gap-2 bg-amber-50 w-fit px-4 py-2 rounded-xl"><span>📍</span> Local Bihar News</h3>
+                <div id="local-news-loader" class="loader" style="border-top-color: #34d399;"></div>
+                <div id="local-news-container" class="news-container space-y-4 pr-2"></div>
+            </div>
+        </div>
+    </section>
+
+    <section data-aos="fade-up" class="max-w-6xl mx-auto px-4 md:px-6 py-8 w-full relative z-10" id="ad-section-container">
+        <p class="text-[10px] md:text-xs text-zinc-600 font-bold mb-3 uppercase tracking-widest text-center bg-white/60 inline-block px-3 py-1 rounded-full mx-auto shadow-sm">Sponsored Content</p>
+        <a href="#booking" class="block w-full cursor-pointer" id="ad-link">
+            <div id="ad-card" class="relative w-full overflow-hidden rounded-2xl bg-white/95 backdrop-blur-xl border border-gray-200 flex flex-col md:flex-row items-center justify-between p-6 md:px-10 group shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_15px_35px_rgba(52,211,153,0.3)] transition-all duration-300">
+                <div class="absolute -top-24 -right-10 w-48 h-48 bg-amber-400/20 rounded-full blur-3xl group-hover:bg-amber-400/40 transition-all duration-700"></div>
+                <div class="absolute -bottom-24 -left-10 w-48 h-48 bg-emerald-400/20 rounded-full blur-3xl group-hover:bg-emerald-400/40 transition-all duration-700"></div>
+                <div class="relative z-10 flex flex-col md:flex-row items-center gap-6 w-full md:w-auto text-center md:text-left mb-6 md:mb-0">
+                    <img id="ad-thumbnail" src="https://placehold.co/150x150/f1f5f9/166534?text=AD" alt="Ad Thumbnail" class="w-16 h-16 md:w-20 md:h-20 rounded-xl object-cover border border-gray-300 shadow-md flex-shrink-0 bg-white">
+                    <div>
+                        <div class="flex items-center justify-center md:justify-start gap-3 mb-2">
+                            <span class="px-2 py-0.5 bg-amber-100 border border-amber-300 text-amber-700 text-[10px] font-black uppercase tracking-wider rounded shadow-sm">Ad</span>
+                            <span class="text-xs font-bold font-mono text-emerald-700" id="ad-company">Loading Sponsor...</span>
+                        </div>
+                        <h4 class="text-xl md:text-2xl font-bold text-zinc-900 mb-2 group-hover:text-amber-600 transition-colors" id="ad-title">Exclusive Offer</h4>
+                        <p class="text-sm text-zinc-600 font-medium max-w-xl" id="ad-description">Discover tools tailored for developers and researchers.</p>
+                    </div>
+                </div>
+                <div class="relative z-10 flex-shrink-0">
+                    <span class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white font-bold rounded-xl group-hover:bg-amber-500 transition-colors shadow-[0_5px_15px_rgba(16,185,129,0.4)] group-hover:shadow-[0_5px_20px_rgba(251,191,36,0.5)] whitespace-nowrap text-sm tracking-wide">
+                        <span id="ad-cta">Learn More</span> <span class="text-lg group-hover:translate-x-1 transition-transform">→</span>
+                    </span>
+                </div>
+            </div>
+        </a>
+    </section>
+
+    <section id="blog" class="max-w-6xl mx-auto px-6 py-20 w-full relative z-10">
+        <div class="mb-12 flex flex-col md:flex-row justify-between items-end gap-6 bg-white/60 p-6 rounded-3xl backdrop-blur-sm border border-white/50 shadow-sm">
+            <div data-aos="fade-right">
+                <h2 class="text-4xl font-bold text-zinc-900 mb-2">Curated <span class="text-amber-400">Articles & Blogs</span></h2>
+                <p class="text-emerald-700 font-bold font-mono italic">Discover high-quality articles from top writers around the world.</p>
+            </div>
+            <button data-aos="fade-left" onclick="refreshBlogs()" class="px-6 py-3 bg-emerald-600 text-white font-bold rounded-xl hover:bg-amber-500 transition flex items-center gap-3 shadow-[0_5px_15px_rgba(16,185,129,0.4)] group hover:shadow-[0_5px_20px_rgba(251,191,36,0.5)]">
+                <span id="blog-refresh-icon" class="text-xl group-hover:rotate-180 transition-transform duration-500">🔄</span> Refresh Blogs
+            </button>
+        </div>
+
+        <div data-aos="fade-up" id="blog-filters" class="flex flex-wrap justify-center md:justify-start gap-2 md:gap-3 mb-8 md:mb-10 bg-white/60 p-4 rounded-2xl shadow-sm backdrop-blur-md border border-white/50 w-fit">
+            <button onclick="loadBlogs('life', this, 'Trending')" id="default-blog-btn" class="blog-btn px-4 md:px-5 py-2 bg-amber-400 text-white font-bold text-xs rounded-full cursor-pointer hover:bg-amber-500 transition shadow-md active-blog-btn hover:-translate-y-1 border border-amber-500">Trending / Interesting</button>
+            <button onclick="loadBlogs('health', this, 'Health')" class="blog-btn px-4 md:px-5 py-2 bg-white text-emerald-700 font-bold border border-gray-200 text-xs rounded-full cursor-pointer hover:bg-emerald-50 transition hover:-translate-y-1 shadow-sm">Health & Food</button>
+            <button onclick="loadBlogs('finance', this, 'Finance')" class="blog-btn px-4 md:px-5 py-2 bg-white text-emerald-700 font-bold border border-gray-200 text-xs rounded-full cursor-pointer hover:bg-emerald-50 transition hover:-translate-y-1 shadow-sm">Business & Finance</button>
+            <button onclick="loadBlogs('politics', this, 'News')" class="blog-btn px-4 md:px-5 py-2 bg-white text-emerald-700 font-bold border border-gray-200 text-xs rounded-full cursor-pointer hover:bg-emerald-50 transition hover:-translate-y-1 shadow-sm">Current Affairs</button>
+            <button onclick="loadBlogs('wellness', this, 'Wellness')" class="blog-btn px-4 md:px-5 py-2 bg-white text-emerald-700 font-bold border border-gray-200 text-xs rounded-full cursor-pointer hover:bg-emerald-50 transition hover:-translate-y-1 shadow-sm">Sexual Wellness</button>
+        </div>
+
+        <div id="blog-loader" class="loader hidden" style="border-top-color: #34d399;"></div>
+        <div id="dynamic-blog-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></div>
+    </section>
+
+    <section id="projects" class="max-w-6xl mx-auto px-6 py-20 w-full relative z-10">
+        <div data-aos="fade-right" class="mb-12 bg-white/60 inline-block p-4 rounded-2xl backdrop-blur-sm border border-white/50 shadow-sm">
+            <h2 class="text-4xl font-bold text-zinc-900 mb-2">Selected <span class="text-amber-600">Works</span></h2>
+            <p class="text-emerald-700 font-bold font-mono italic">Recent digital creations</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.3" class="group relative overflow-hidden rounded-3xl bg-white/85 border border-gray-200 custom-card cursor-pointer backdrop-blur-xl shadow-xl">
+                <div class="aspect-video overflow-hidden">
+                    <img src="project1.jpg" alt="Project One" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-95" onerror="this.src='https://placehold.co/600x400/f1f5f9/166534?text=Portfolio+Site'">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-zinc-900 mb-2 translate-z-10" style="transform: translateZ(30px);">Personal Portfolio</h3>
+                    <p class="text-zinc-700 font-medium text-sm mb-4 translate-z-10" style="transform: translateZ(20px);">A high-performance landing page built with Tailwind CSS and optimized for SEO.</p>
+                    <div class="flex gap-2 translate-z-10" style="transform: translateZ(40px);">
+                        <span class="px-3 py-1 bg-emerald-100 text-emerald-800 font-bold text-xs rounded-full border border-emerald-200 shadow-sm">Tailwind</span>
+                        <span class="px-3 py-1 bg-emerald-100 text-emerald-800 font-bold text-xs rounded-full border border-emerald-200 shadow-sm">HTML</span>
+                    </div>
+                </div>
+            </div>
+
+            <div data-aos="fade-up" data-aos-delay="200" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.3" class="group relative overflow-hidden rounded-3xl bg-white/85 border border-gray-200 custom-card cursor-pointer backdrop-blur-xl shadow-xl">
+                <div class="aspect-video overflow-hidden">
+                    <img src="project2.jpg" alt="Project Two" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-95" onerror="this.src='https://placehold.co/600x400/f1f5f9/166534?text=E-commerce+App'">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-zinc-900 mb-2 translate-z-10" style="transform: translateZ(30px);">E-commerce Platform</h3>
+                    <p class="text-zinc-700 font-medium text-sm mb-4 translate-z-10" style="transform: translateZ(20px);">A full-stack store application featuring secure checkout and inventory management.</p>
+                    <div class="flex gap-2 translate-z-10" style="transform: translateZ(40px);">
+                        <span class="px-3 py-1 bg-emerald-100 text-emerald-800 font-bold text-xs rounded-full border border-emerald-200 shadow-sm">Node.js</span>
+                        <span class="px-3 py-1 bg-emerald-100 text-emerald-800 font-bold text-xs rounded-full border border-emerald-200 shadow-sm">MongoDB</span>
+                    </div>
+                </div>
+            </div>
+
+            <div data-aos="fade-up" data-aos-delay="300" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.3" class="group relative overflow-hidden rounded-3xl bg-white/85 border border-gray-200 custom-card cursor-pointer backdrop-blur-xl shadow-xl">
+                <div class="aspect-video overflow-hidden">
+                    <img src="project3.jpg" alt="Project Three" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-95" onerror="this.src='https://placehold.co/600x400/f1f5f9/166534?text=Research+Dashboard'">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-zinc-900 mb-2 translate-z-10" style="transform: translateZ(30px);">Data Visualizer</h3>
+                    <p class="text-zinc-700 font-medium text-sm mb-4 translate-z-10" style="transform: translateZ(20px);">A custom dashboard for social research data analytics and trend tracking.</p>
+                    <div class="flex gap-2 translate-z-10" style="transform: translateZ(40px);">
+                        <span class="px-3 py-1 bg-emerald-100 text-emerald-800 font-bold text-xs rounded-full border border-emerald-200 shadow-sm">Python</span>
+                        <span class="px-3 py-1 bg-emerald-100 text-emerald-800 font-bold text-xs rounded-full border border-emerald-200 shadow-sm">D3.js</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div data-aos="fade-up" class="flex flex-col sm:flex-row gap-4 mt-12">
+            <a href="Santosh_Resume.pdf" target="_blank" class="px-8 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-500 transition shadow-[0_5px_20px_rgba(16,185,129,0.4)] flex items-center justify-center gap-2 hover:-translate-y-1 text-sm tracking-wide">
+                <span>👁️</span> View Resume
+            </a>
+            <a href="Santosh_Resume.pdf" download="Santosh_Kumar_Resume" class="px-8 py-4 border-2 border-amber-400 bg-white text-amber-500 font-bold rounded-full hover:bg-amber-400 hover:text-white transition flex items-center justify-center gap-2 hover:-translate-y-1 shadow-md text-sm tracking-wide">
+                <span>📥</span> Download PDF
+            </a>
+        </div>
+    </section>
+
+    <section id="stats" class="max-w-6xl mx-auto px-6 py-12 w-full relative z-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center bg-white/70 p-8 rounded-3xl backdrop-blur-md border border-gray-200 shadow-xl" id="counter-section">
+            <div data-aos="zoom-in" data-aos-delay="0">
+                <h3 class="text-4xl md:text-5xl font-black text-amber-500 mb-2 tracking-tighter drop-shadow-sm"><span class="stat-counter" data-target="3">0</span>+</h3>
+                <p class="text-emerald-800 font-bold font-mono text-xs uppercase tracking-widest bg-emerald-50 px-2 py-1 rounded w-fit mx-auto">Years Experience</p>
+            </div>
+            <div data-aos="zoom-in" data-aos-delay="100">
+                <h3 class="text-4xl md:text-5xl font-black text-amber-500 mb-2 tracking-tighter drop-shadow-sm"><span class="stat-counter" data-target="25">0</span>+</h3>
+                <p class="text-emerald-800 font-bold font-mono text-xs uppercase tracking-widest bg-emerald-50 px-2 py-1 rounded w-fit mx-auto">Projects Completed</p>
+            </div>
+            <div data-aos="zoom-in" data-aos-delay="200">
+                <h3 class="text-4xl md:text-5xl font-black text-amber-500 mb-2 tracking-tighter drop-shadow-sm"><span class="stat-counter" data-target="50">0</span>+</h3>
+                <p class="text-emerald-800 font-bold font-mono text-xs uppercase tracking-widest bg-emerald-50 px-2 py-1 rounded w-fit mx-auto">Happy Clients</p>
+            </div>
+            <div data-aos="zoom-in" data-aos-delay="300">
+                <h3 class="text-4xl md:text-5xl font-black text-amber-500 mb-2 tracking-tighter drop-shadow-sm"><span class="stat-counter" data-target="1000">0</span>+</h3>
+                <p class="text-emerald-800 font-bold font-mono text-xs uppercase tracking-widest bg-emerald-50 px-2 py-1 rounded w-fit mx-auto">Cups of Coffee</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="daily-insight" class="max-w-6xl mx-auto px-6 py-12 w-full relative z-10">
+        <div data-aos="zoom-in" class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden group">
+            
+            <div class="absolute -top-24 -left-10 w-48 h-48 bg-emerald-400/20 rounded-full blur-3xl group-hover:bg-emerald-400/40 transition-all duration-700"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row items-center gap-8">
+                
+                <div class="flex-shrink-0 relative">
+                    <img id="insight-image" src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=400&auto=format&fit=crop" alt="Insight Theme" class="w-32 h-32 md:w-48 md:h-48 rounded-2xl object-cover shadow-lg border-4 border-white transition-opacity duration-500">
+                    <div class="absolute -bottom-3 -right-3 text-4xl drop-shadow-lg animate-bounce" style="animation-duration: 3s;">💡</div>
+                </div>
+                
+                <div class="flex-grow text-center md:text-left flex flex-col justify-center">
+                    <h3 class="text-sm font-bold text-amber-600 uppercase tracking-widest mb-3 font-mono">Tech & Society Insight</h3>
+                    
+                    <div id="insight-content-container" class="fade-insight">
+                        <p id="insight-quote" class="text-xl md:text-2xl font-black text-zinc-900 mb-4 leading-snug">"Loading insight..."</p>
+                        <p id="insight-author" class="text-emerald-700 font-bold text-sm mb-6">— Santosh Kumar</p>
+                    </div>
+                    
+                    <button onclick="renderInsight()" class="mx-auto md:mx-0 inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-emerald-50 text-emerald-800 font-bold rounded-xl transition border border-gray-200 shadow-sm hover:shadow-md text-sm w-fit">
+                        <span id="insight-spin-icon" class="text-lg">🔄</span> Generate New Insight
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="max-w-4xl mx-auto px-6 py-24 w-full text-center relative z-10">
+        <div class="bg-white/85 backdrop-blur-xl border border-gray-200 rounded-3xl p-10 md:p-14 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 -mr-8 -mt-8 w-64 h-64 bg-emerald-400/10 rounded-full blur-3xl transition-all duration-700"></div>
+            <div class="absolute bottom-0 left-0 -ml-8 -mb-8 w-64 h-64 bg-amber-400/10 rounded-full blur-3xl transition-all duration-700"></div>
+            
+            <div class="grid md:grid-cols-2 gap-16 relative z-10 text-left">
+                <div data-aos="fade-right">
+                    <h2 class="text-4xl font-black mb-6 text-zinc-900">Start a conversation.</h2>
+                    <p class="text-zinc-700 font-medium mb-8 leading-relaxed">Whether you have a question about a project or just want to say hi, my inbox is always open.</p>
+                    <div class="space-y-6">
+                        <p class="flex items-center gap-4 text-emerald-700 group bg-emerald-50 p-4 rounded-2xl border border-emerald-100 shadow-sm w-fit">
+                            <span class="text-2xl group-hover:scale-125 transition-transform">✉️</span>
+                            <a href="mailto:itsdhawan544@gmail.com" class="text-emerald-800 hover:text-amber-600 transition break-all font-bold text-lg">itsdhawan544@gmail.com</a>
+                        </p>
+                        <div class="pt-4 space-y-4">
+                            <a href="tel:+916203049233" class="inline-flex items-center justify-center w-full gap-3 px-8 py-4 bg-emerald-600 text-white font-bold rounded-2xl hover:bg-emerald-500 transition shadow-[0_5px_20px_rgba(16,185,129,0.3)] hover:-translate-y-1 text-sm tracking-wide">
+                                <span>📞</span> Call Me
+                            </a>
+                            <a href="https://wa.me/916203049233" target="_blank" class="inline-flex items-center justify-center w-full gap-2 px-8 py-4 border-2 border-[#25D366] bg-white text-[#25D366] font-bold rounded-2xl hover:bg-[#25D366] hover:text-white transition shadow-sm hover:shadow-lg hover:-translate-y-1 text-sm tracking-wide">
+                                <span>💬</span> Message on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <form data-aos="fade-left" action="https://formspree.io/f/mjgeoyqq" method="POST" class="space-y-6 bg-zinc-50/50 p-8 rounded-3xl border border-gray-200 shadow-inner"> 
+                    <input type="text" name="name" placeholder="Full Name" required class="w-full p-4 bg-white border border-gray-300 rounded-xl focus:border-amber-400 focus:shadow-[0_0_15px_rgba(251,191,36,0.2)] outline-none transition text-zinc-900 placeholder-zinc-400 font-medium">
+                    <input type="email" name="email" placeholder="Email Address" required class="w-full p-4 bg-white border border-gray-300 rounded-xl focus:border-amber-400 focus:shadow-[0_0_15px_rgba(251,191,36,0.2)] outline-none transition text-zinc-900 placeholder-zinc-400 font-medium">
+                    <textarea name="message" rows="5" placeholder="Your Message" required class="w-full p-4 bg-white border border-gray-300 rounded-xl focus:border-amber-400 focus:shadow-[0_0_15px_rgba(251,191,36,0.2)] outline-none transition text-zinc-900 placeholder-zinc-400 font-medium"></textarea>
+                    <button type="submit" class="w-full py-4 bg-amber-400 text-white font-black rounded-xl hover:bg-amber-500 transition uppercase tracking-widest hover:shadow-[0_5px_20px_rgba(251,191,36,0.4)] text-sm">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="p-12 text-center text-zinc-600 font-bold text-xs border-t border-gray-300/50 mt-auto uppercase tracking-widest backdrop-blur-md bg-white/70 relative z-10 shadow-[0_-5px_15px_rgba(0,0,0,0.02)]">
+        © 2026 Santosh Kumar // Designed for the future
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+    <script>
+        // ==========================================
+        // TECH & SOCIETY INSIGHT LOGIC
+        // ==========================================
+        const insights = [
+            {
+                quote: "Technology is society made durable.",
+                author: "Bruno Latour",
+                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=400&auto=format&fit=crop"
+            },
+            {
+                quote: "First we shape our tools, thereafter our tools shape us.",
+                author: "Marshall McLuhan",
+                image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=400&auto=format&fit=crop"
+            },
+            {
+                quote: "The real danger is not that computers will begin to think like men, but that men will begin to think like computers.",
+                author: "Sydney Harris",
+                image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=400&auto=format&fit=crop"
+            },
+            {
+                quote: "Data is not just numbers; it is a reflection of human behavior, encoded and stored.",
+                author: "Sociological Perspective",
+                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=400&auto=format&fit=crop"
+            },
+            {
+                quote: "We are stuck with technology when what we really want is just stuff that works.",
+                author: "Douglas Adams",
+                image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=400&auto=format&fit=crop"
+            },
+            {
+                quote: "The internet is no longer a web that we connect to. It is a computerized, networked, and interconnected world that we live in.",
+                author: "Bruce Schneier",
+                image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=400&auto=format&fit=crop"
+            }
+        ];
+
+        function renderInsight() {
+            const icon = document.getElementById('insight-spin-icon');
+            icon.classList.add('spin-icon');
+            
+            setTimeout(() => { icon.classList.remove('spin-icon'); }, 500);
+
+            const container = document.getElementById('insight-content-container');
+            const imgEl = document.getElementById('insight-image');
+            
+            const randomIndex = Math.floor(Math.random() * insights.length);
+            const selected = insights[randomIndex];
+
+            container.classList.remove('fade-insight');
+            imgEl.style.opacity = '0.5';
+            
+            void container.offsetWidth; 
+            
+            setTimeout(() => {
+                document.getElementById('insight-quote').innerText = `"${selected.quote}"`;
+                document.getElementById('insight-author').innerText = `— ${selected.author}`;
+                imgEl.src = selected.image;
+                
+                container.classList.add('fade-insight');
+                imgEl.style.opacity = '1';
+            }, 150);
+        }
+
+        // ==========================================
+        // MOCK ADVERTISEMENT ROTATION SYSTEM
+        // ==========================================
+        const mockAds = [
+            { id: "DC", color: "10b981", company: "DevCloud India", title: "Deploy Your App in Seconds 🚀", desc: "Lightning-fast servers in Mumbai & Delhi. Get 6 months free premium cloud hosting.", cta: "Claim Free Hosting" },
+            { id: "CM", color: "3b82f6", company: "CodeMaster Bootcamp", title: "Master React in 30 Days", desc: "Build real-world projects and land your dream job with our intensive frontend curriculum.", cta: "Join Bootcamp" },
+            { id: "UX", color: "f59e0b", company: "UX FlowPro", title: "Design Systems Made Easy", desc: "Stop reinventing the wheel. Generate perfect Tailwind CSS UI components in one click.", cta: "Start Designing" },
+            { id: "SN", color: "ef4444", company: "SecureNet VPN", title: "Protect Your Development", desc: "Military-grade encryption for remote workers. Test global APIs without geo-restrictions.", cta: "Get 70% Off" },
+            { id: "TT", color: "8b5cf6", company: "TaskTrek", title: "The Ultimate Dev Planner", desc: "Kanban boards meets GitHub integration. Keep your agile sprints completely synced.", cta: "Try TaskTrek Free" },
+            { id: "BD", color: "6366f1", company: "ByteDesk", title: "Mechanical Keyboards for Coders", desc: "Ergonomic, hot-swappable switches designed to reduce fatigue during long coding sessions.", cta: "Shop Keyboards" },
+            { id: "DA", color: "14b8a6", company: "DataViz Academy", title: "Turn Raw Data into Stories", desc: "Learn D3.js and Python visualization techniques tailored for social researchers.", cta: "View Course" },
+            { id: "FH", color: "f97316", company: "FreelanceHub", title: "High-Paying Tech Gigs", desc: "Connect with startups looking for skilled full-stack developers and UI engineers.", cta: "Find Work Today" },
+            { id: "TF", color: "ec4899", company: "TypeFast IDE", title: "Code at the Speed of Thought", desc: "An AI-powered lightweight editor that writes boilerplate code before you even ask.", cta: "Download IDE" },
+            { id: "SS", color: "06b6d4", company: "SocialStats Pro", title: "Analyze Sociology Data Fast", desc: "The SPSS alternative built for the modern web. Visualize demographics instantly.", cta: "Start Free Trial" },
+            { id: "AI", color: "84cc16", company: "AI CodeBuddy", title: "Never Stuck on a Bug Again", desc: "Your personal pair-programmer. Let AI find the missing semicolon in seconds.", cta: "Install Extension" },
+            { id: "RM", color: "38bdf8", company: "React Mastery", title: "Advanced State Management", desc: "Move beyond Context API. Learn Redux Toolkit and Zustand from industry experts.", cta: "Enroll Now" },
+            { id: "CC", color: "a855f7", company: "CoffeeCode", title: "Premium Roasts for Devs", desc: "High-caffeine, low-acidity coffee beans delivered right to your desk every week.", cta: "Get 1st Bag Free" }
+        ];
+
+        function renderRandomAd() {
+            const adCard = document.getElementById('ad-card');
+            const randomIndex = Math.floor(Math.random() * mockAds.length);
+            const ad = mockAds[randomIndex];
+
+            adCard.classList.remove('fade-ad');
+            void adCard.offsetWidth; 
+            adCard.classList.add('fade-ad');
+
+            document.getElementById('ad-company').innerText = ad.company;
+            document.getElementById('ad-title').innerText = ad.title;
+            document.getElementById('ad-description').innerText = ad.desc;
+            document.getElementById('ad-cta').innerText = ad.cta;
+            
+            document.getElementById('ad-thumbnail').src = `https://placehold.co/150x150/f1f5f9/${ad.color}?text=${ad.id}`;
+        }
+
+        // ==========================================
+        // INIT GENERAL INTERACTIVE FEATURES
+        // ==========================================
+        AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 50 });
+
+        new Typed('#typed-text', {
+            strings: ['Everything Required.', 'Web Development.', 'Social Research.', 'Data Structures.'],
+            typeSpeed: 60, backSpeed: 40, backDelay: 2000, loop: true, cursorChar: '|',
+        });
+
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('back-to-top');
+            if (window.scrollY > 600) { btn.classList.remove('translate-y-24', 'opacity-0'); } 
+            else { btn.classList.add('translate-y-24', 'opacity-0'); }
+        });
+
+        const counters = document.querySelectorAll('.stat-counter');
+        let hasCounted = false;
+        const observerOptions = { threshold: 0.5 };
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !hasCounted) {
+                    hasCounted = true;
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        const duration = 2000;
+                        const increment = target / (duration / 16); 
+                        let current = 0;
+                        const updateCounter = () => {
+                            current += increment;
+                            if (current < target) {
+                                counter.innerText = Math.ceil(current);
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                counter.innerText = target;
+                            }
+                        };
+                        updateCounter();
+                    });
+                }
+            });
+        }, observerOptions);
+        const counterSection = document.getElementById('counter-section');
+        if(counterSection) counterObserver.observe(counterSection);
+
+        // ==========================================
+        // API Keys & FETCH LOGIC (Weather, News, Blogs)
+        // ==========================================
+        const WORLD_NEWS_API_KEY = '0b7f0af89b69418796154f334a7cdf92';
+        const GNEWS_API_KEY = '818a32c0bc4fd11d35cdf06a3a6c78a0';
+
+        const wnNationalUrl = `https://api.worldnewsapi.com/search-news?api-key=${WORLD_NEWS_API_KEY}&source-countries=in&language=en`;
+        const wnLocalUrl = `https://api.worldnewsapi.com/search-news?api-key=${WORLD_NEWS_API_KEY}&text=Bihar&source-countries=in&language=en`;
+        const gnewsNationalUrl = `https://gnews.io/api/v4/top-headlines?category=general&lang=en&country=in&max=10&apikey=${GNEWS_API_KEY}`;
+        const gnewsLocalUrl = `https://gnews.io/api/v4/search?q=Bihar&lang=en&country=in&max=10&apikey=${GNEWS_API_KEY}`;
+        const googleNationalRss = `https://news.google.com/rss?hl=en-IN&gl=IN&ceid=IN:en`;
+        const googleLocalRss = `https://news.google.com/rss/search?q=Bihar&ceid=IN:en&hl=en-IN&gl=IN`;
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            return new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function createNewsItemHTML(article, isLocal) {
+            const titleColor = 'text-zinc-900';
+            const sourceColor = isLocal ? 'text-amber-700' : 'text-emerald-700';
+            let sourceName = 'News';
+            if (article.source && article.source.name) { sourceName = article.source.name; } 
+            else { try { sourceName = new URL(article.url).hostname.replace('www.', ''); } catch(e) {} }
+
+            let fallbackText = sourceName ? sourceName.substring(0, 2).toUpperCase() : (isLocal ? 'BH' : 'IN');
+            const fallbackImage = `https://placehold.co/100x100/f1f5f9/166534?text=${fallbackText}`;
+            const imageUrl = article.image || fallbackImage;
+            const pubDate = article.publish_date || article.publishedAt;
+            
+            return `
+                <div data-aos="fade-up" class="flex gap-4 p-4 bg-white/90 rounded-xl border border-gray-200 hover:bg-white transition backdrop-blur-md shadow-sm hover:shadow-md">
+                    <img src="${imageUrl}" alt="News" class="w-20 h-20 object-cover rounded-lg flex-shrink-0" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='${fallbackImage}';">
+                    <div class="flex flex-col justify-between">
+                        <a href="${article.url}" target="_blank" class="font-bold ${titleColor} hover:text-amber-600 line-clamp-2 transition duration-200 text-base leading-snug">${article.title}</a>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="text-xs font-black ${sourceColor} uppercase tracking-wider bg-zinc-100 px-2 py-1 rounded">${sourceName}</span>
+                            <span class="text-xs font-bold text-zinc-500">${formatDate(pubDate)}</span>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        async function fetchWeather() {
+            const refreshIcon = document.getElementById('weather-refresh-icon');
+            if (refreshIcon) refreshIcon.classList.add('spin-icon');
+            document.getElementById('weather-loader').style.display = 'block';
+            document.getElementById('weather-content').classList.add('hidden');
+
+            try {
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=25.92&longitude=86.79&current=temperature_2m,weather_code,wind_speed_10m,precipitation,relative_humidity_2m,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum&forecast_days=10&timezone=auto');
+                if (!res.ok) throw new Error("API Error");
+                const data = await res.json();
+                
+                const current = data.current;
+                const daily = data.daily;
+                const code = current.weather_code;
+                const isDay = current.is_day === 1; 
+                
+                let condition = "Clear/Cloudy";
+                let alertHtml = "";
+                let alertDotClass = "bg-emerald-500";
+
+                function getWeatherDetails(wCode, isCurrentTime = true) {
+                    let textStr = "Unknown"; let baseIcon = "☁️";
+                    let isDaytime = isCurrentTime ? isDay : true;
+                    let sunStyle = isCurrentTime ? "text-4xl md:text-5xl -top-2 -right-3" : "text-2xl md:text-3xl -top-1 -right-2";
+
+                    if (wCode === 0) { textStr = "Clear Sky"; return { icon: isDaytime ? "☀️" : "🌙", text: textStr }; } 
+                    if (wCode === 1) { textStr = "Mainly Clear"; baseIcon = "🌤️"; }
+                    else if (wCode === 2) { textStr = "Partly Cloudy"; baseIcon = "⛅"; }
+                    else if (wCode === 3) { textStr = "Overcast"; baseIcon = "☁️"; }
+                    else if (wCode === 45 || wCode === 48) { textStr = "Foggy"; baseIcon = "🌫️"; }
+                    else if (wCode >= 51 && wCode <= 57) { textStr = "Drizzle"; baseIcon = "🌦️"; }
+                    else if (wCode >= 61 && wCode <= 67) { textStr = "Raining"; baseIcon = "🌧️"; }
+                    else if (wCode >= 71 && wCode <= 77) { textStr = "Snowing"; baseIcon = "🌨️"; }
+                    else if (wCode >= 80 && wCode <= 82) { textStr = "Showers"; baseIcon = "🌧️"; }
+                    else if (wCode >= 95 && wCode <= 99) { textStr = "Thunderstorm"; baseIcon = "⛈️"; }
+
+                    let finalIcon = baseIcon;
+                    if (!isDaytime) {
+                        let nightBase = "☁️";
+                        if (wCode >= 51 && wCode <= 67 || wCode >= 80 && wCode <= 82) nightBase = "🌧️";
+                        if (wCode >= 95) nightBase = "⛈️";
+                        if (wCode >= 71 && wCode <= 77) nightBase = "🌨️";
+                        finalIcon = `<span class="relative flex items-center justify-center"><span class="absolute ${sunStyle} opacity-100 z-0 text-zinc-400">🌙</span><span class="relative z-10">${nightBase}</span></span>`;
+                    } else if (isDaytime && [3, 61, 63, 65, 71, 73, 75, 80, 81, 82, 95, 96, 99].includes(wCode)) {
+                         finalIcon = `<span class="relative flex items-center justify-center"><span class="absolute ${sunStyle} opacity-100 z-0 drop-shadow-lg text-amber-400">☀️</span><span class="relative z-10">${baseIcon}</span></span>`;
+                    }
+                    
+                    return { icon: finalIcon, text: textStr };
+                }
+
+                const currentWeatherDetails = getWeatherDetails(code, true);
+                condition = currentWeatherDetails.text;
+                let weatherIcon = currentWeatherDetails.icon;
+
+                if (condition === "Raining") {
+                    alertDotClass = "bg-amber-500 animate-pulse";
+                    alertHtml = `<div class="mt-8 p-5 bg-gradient-to-r from-amber-100 to-transparent border-l-4 border-amber-500 rounded-r-2xl text-amber-900 flex items-center gap-4 shadow-sm backdrop-blur-sm"><span class="text-2xl animate-bounce">⚠️</span> <span class="font-bold tracking-wide">Rain detected in your area right now.</span></div>`;
+                } else if (condition === "Thunderstorm") {
+                    alertDotClass = "bg-red-500 animate-pulse";
+                    alertHtml = `<div class="mt-8 p-5 bg-gradient-to-r from-red-100 to-transparent border-l-4 border-red-500 rounded-r-2xl text-red-900 flex items-center gap-4 shadow-sm backdrop-blur-sm"><span class="text-2xl animate-bounce">⛈️</span> <span class="font-bold tracking-wide">Severe Storm Warning! Stay safe indoors.</span></div>`;
+                }
+
+                let forecastHtml = '';
+                const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                
+                for(let i = 0; i < 10; i++) {
+                    const dateObj = new Date(daily.time[i]);
+                    const dayName = i === 0 ? 'Today' : dayNames[dateObj.getDay()];
+                    const maxT = Math.round(daily.temperature_2m_max[i]);
+                    const minT = Math.round(daily.temperature_2m_min[i]);
+                    const dailyDetails = getWeatherDetails(daily.weather_code[i], false); 
+                    const precipProb = daily.precipitation_probability_max[i] || 0; 
+                    const precipSum = daily.precipitation_sum[i] || 0; 
+                    
+                    forecastHtml += `
+                        <div class="min-w-[95px] md:min-w-[110px] flex-shrink-0 bg-white/95 p-4 rounded-2xl border border-gray-200 flex flex-col items-center justify-center snap-center hover:border-emerald-400 transition-all duration-300 hover:shadow-lg shadow-sm">
+                            <span class="text-zinc-600 text-xs md:text-sm uppercase tracking-widest font-bold mb-3">${dayName}</span>
+                            <span class="text-3xl mb-3 drop-shadow-md flex items-center justify-center h-10 w-10">${dailyDetails.icon}</span>
+                            <div class="flex gap-2 text-sm font-black mb-3 border-b border-gray-100 pb-2 w-full justify-center">
+                                <span class="text-zinc-900">${maxT}°</span>
+                                <span class="text-zinc-400">${minT}°</span>
+                            </div>
+                            <div class="flex flex-col gap-1 w-full">
+                                <div class="flex justify-between items-center bg-zinc-50 px-2 py-1 rounded-md border border-gray-100 w-full" title="Chance of Rain">
+                                    <span class="text-[10px]">💧</span>
+                                    <span class="text-[10px] font-black text-sky-700">${precipProb}%</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-zinc-50 px-2 py-1 rounded-md border border-gray-100 w-full" title="Precipitation Amount">
+                                    <span class="text-[10px]">☔</span>
+                                    <span class="text-[10px] font-black text-emerald-700">${precipSum}<span class="text-[8px] font-normal">mm</span></span>
+                                </div>
+                            </div>
+                        </div>`;
+                }
+
+                document.getElementById('weather-content').innerHTML = `
+                    <div class="absolute -top-20 -left-20 w-64 h-64 bg-emerald-300/20 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-amber-300/20 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="relative z-10 flex flex-col gap-10">
+                        <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                            <div class="flex flex-col md:flex-row items-center gap-8 md:gap-10">
+                                <div class="flex items-center justify-center w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br from-white to-gray-100 border border-gray-200 rounded-[2.5rem] shadow-xl backdrop-blur-md animate-float">
+                                    <span class="text-6xl md:text-7xl drop-shadow-[0_10px_10px_rgba(0,0,0,0.15)]">${weatherIcon}</span>
+                                </div>
+                                <div class="text-center md:text-left">
+                                    <div class="flex items-start justify-center md:justify-start">
+                                        <h3 class="text-7xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-zinc-900 to-zinc-700 tracking-tight leading-none">${current.temperature_2m}</h3>
+                                        <span class="text-3xl md:text-4xl text-emerald-600 font-bold mt-2 ml-1 align-top">°C</span>
+                                    </div>
+                                    <div class="mt-4"><span class="px-5 py-2 rounded-full bg-white border border-emerald-200 text-emerald-800 font-bold tracking-widest uppercase text-sm shadow-sm inline-flex items-center gap-3 backdrop-blur-sm"><span class="w-2 h-2 rounded-full ${alertDotClass} shadow-[0_0_8px_currentColor]"></span>${condition}</span></div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 sm:gap-4 w-full md:flex md:w-auto mt-4 md:mt-0">
+                                <div class="flex-1 md:w-32 bg-white/95 p-4 md:p-6 rounded-3xl border border-gray-200 hover:border-emerald-400 transition-all duration-300 shadow-md flex flex-col items-center md:items-start group"><span class="text-2xl mb-3 group-hover:scale-110 transition-transform">💨</span><span class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-1">Wind</span><span class="text-lg md:text-xl font-black text-zinc-900">${current.wind_speed_10m} <span class="text-xs text-zinc-500 font-bold">km/h</span></span></div>
+                                <div class="flex-1 md:w-32 bg-white/95 p-4 md:p-6 rounded-3xl border border-gray-200 hover:border-emerald-400 transition-all duration-300 shadow-md flex flex-col items-center md:items-start group"><span class="text-2xl mb-3 group-hover:scale-110 transition-transform">☔</span><span class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-1">Precip</span><span class="text-lg md:text-xl font-black text-zinc-900">${current.precipitation} <span class="text-xs text-zinc-500 font-bold">mm</span></span></div>
+                                <div class="flex-1 md:w-32 bg-white/95 p-4 md:p-6 rounded-3xl border border-gray-200 hover:border-emerald-400 transition-all duration-300 shadow-md flex flex-col items-center md:items-start group"><span class="text-2xl mb-3 group-hover:scale-110 transition-transform">💧</span><span class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-1">Humidity</span><span class="text-lg md:text-xl font-black text-zinc-900">${current.relative_humidity_2m} <span class="text-xs text-zinc-500 font-bold">%</span></span></div>
+                            </div>
+                        </div>
+                        ${alertHtml}
+                        <div class="h-px w-full bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+                        <div>
+                            <h4 class="text-xs text-emerald-800 uppercase tracking-widest font-black mb-4 flex items-center gap-2 bg-white/80 w-fit px-3 py-1 rounded-md border border-gray-200 shadow-sm"><span>📅</span> 10-Day Forecast</h4>
+                            <div class="flex overflow-x-auto gap-4 pb-2 snap-x hide-scrollbar">${forecastHtml}</div>
+                        </div>
+                    </div>`;
+                document.getElementById('weather-loader').style.display = 'none';
+                document.getElementById('weather-content').classList.remove('hidden');
+            } catch (err) {
+                document.getElementById('weather-loader').style.display = 'none';
+                document.getElementById('weather-content').classList.remove('hidden');
+                document.getElementById('weather-content').innerHTML = `<div class="p-6 bg-red-50 border border-red-200 rounded-2xl text-red-800 font-mono font-bold text-center shadow-inner">Unable to load live weather data at the moment. Please try again later.</div>`;
+            } finally { if (refreshIcon) refreshIcon.classList.remove('spin-icon'); }
+        }
+
+        async function fetchWorldNews(baseUrl, targetCount) {
+            let allArticles = []; let offset = 0; let lastError = "Limit reached or empty data"; 
+            for(let attempts = 0; attempts < 2; attempts++) {
+                try {
+                    const response = await fetch(`${baseUrl}&number=10&offset=${offset}`);
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message || `HTTP ${response.status}`);
+                    if (data.status === 'error' || data.status === 'failure') throw new Error(data.message || "WorldNews API Error");
+                    if (data.news && data.news.length > 0) { allArticles = allArticles.concat(data.news); offset += data.news.length; } 
+                    else { break; }
+                } catch (e) { lastError = e.message; break; }
+            }
+            if (allArticles.length === 0) throw new Error(lastError);
+            return allArticles.slice(0, targetCount);
+        }
+
+        async function fetchGNews(baseUrl) {
+            try {
+                const response = await fetch(baseUrl); const data = await response.json();
+                if (!response.ok) throw new Error(data.errors ? data.errors[0] : `HTTP ${response.status}`);
+                if (!data.articles || data.articles.length === 0) throw new Error("GNews returned 0 articles");
+                return data.articles;
+            } catch (e) {
+                if (e.name === "TypeError") throw new Error("Browser/Adblocker blocked request");
+                throw e; 
+            }
+        }
+
+        async function fetchGoogleNewsFallback(rssUrl) {
+            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+            const response = await fetch(apiUrl);
+            if (!response.ok) throw new Error(`Google RSS Failed: ${response.status}`);
+            const data = await response.json();
+            if (data.status !== 'ok' || !data.items) throw new Error("Google RSS empty");
+            if (data.items.length > 0 && data.items[0].title === 'This feed is not available.') throw new Error("Google RSS feed URL is invalid or unavailable.");
+
+            return data.items.map(item => {
+                let imgUrl = item.enclosure ? item.enclosure.link : (item.thumbnail || null);
+                if (!imgUrl && (item.content || item.description)) {
+                    const tempDiv = document.createElement('div'); tempDiv.innerHTML = item.content || item.description;
+                    const img = tempDiv.querySelector('img'); if (img && img.src) { imgUrl = img.src; }
+                }
+                return { title: item.title, url: item.link, image: imgUrl, source: { name: 'Google News' }, publish_date: item.pubDate };
+            });
+        }
+
+        async function fetchNews() {
+            const refreshIcon = document.getElementById('refresh-icon');
+            if(refreshIcon) refreshIcon.classList.add('spin-icon');
+            document.getElementById('national-news-loader').style.display = 'block';
+            document.getElementById('local-news-loader').style.display = 'block';
+            
+            const natContainer = document.getElementById('national-news-container');
+            const locContainer = document.getElementById('local-news-container');
+            natContainer.innerHTML = ''; locContainer.innerHTML = '';
+
+            let natArticles = []; let locArticles = []; let natErrorMsg = "Failed to load."; let locErrorMsg = "Failed to load.";
+
+            try { natArticles = await fetchWorldNews(wnNationalUrl, 25); } 
+            catch (err1) {
+                try { natArticles = await fetchGNews(gnewsNationalUrl); } 
+                catch (err2) {
+                    try { natArticles = await fetchGoogleNewsFallback(googleNationalRss); } 
+                    catch (err3) { natErrorMsg = `Failed completely. Google: ${err3.message}`; }
+                }
+            }
+
+            try { locArticles = await fetchWorldNews(wnLocalUrl, 25); } 
+            catch (err1) {
+                try { locArticles = await fetchGNews(gnewsLocalUrl); } 
+                catch (err2) {
+                    try { locArticles = await fetchGoogleNewsFallback(googleLocalRss); } 
+                    catch (err3) { locErrorMsg = `Failed completely. Google: ${err3.message}`; }
+                }
+            }
+
+            document.getElementById('national-news-loader').style.display = 'none';
+            document.getElementById('local-news-loader').style.display = 'none';
+
+            if (natArticles.length > 0) { natArticles.forEach(a => natContainer.innerHTML += createNewsItemHTML(a, false)); } 
+            else { natContainer.innerHTML = `<div class="p-4 bg-red-50 border border-red-200 rounded-xl text-red-800 text-sm font-mono font-bold">${natErrorMsg}</div>`; }
+
+            if (locArticles.length > 0) { locArticles.forEach(a => locContainer.innerHTML += createNewsItemHTML(a, true)); } 
+            else { locContainer.innerHTML = `<div class="p-4 bg-red-50 border border-red-200 rounded-xl text-red-800 text-sm font-mono font-bold">${locErrorMsg}</div>`; }
+
+            if(refreshIcon) refreshIcon.classList.remove('spin-icon');
+            const lastUpdated = document.getElementById('last-updated');
+            if(lastUpdated) lastUpdated.innerText = `Last Refreshed: ${new Date().toLocaleTimeString()}`;
+        }
+        
+        let currentBlogTag = 'life'; let currentBlogLabel = 'Trending'; let currentBlogBtn = null;
+
+        function createBlogCard(article, badgeLabel) {
+            const tempDiv = document.createElement("div"); tempDiv.innerHTML = article.description || article.content || "";
+            let snippet = tempDiv.textContent || tempDiv.innerText || ""; snippet = snippet.replace(/\s+/g, ' ').trim(); 
+            if(snippet.length > 140) snippet = snippet.substring(0, 140) + '...';
+
+            const imageUrl = article.thumbnail || `https://placehold.co/600x400/f1f5f9/f59e0b?text=${badgeLabel}`;
+            
+            return `
+            <article data-aos="fade-up" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2" class="group relative overflow-hidden rounded-3xl bg-white/90 border border-gray-200 custom-card flex flex-col h-full cursor-pointer dynamic-tilt backdrop-blur-xl shadow-lg">
+                <div class="aspect-[16/10] overflow-hidden relative border-b border-gray-100">
+                    <img src="${imageUrl}" alt="Blog Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-95" onerror="this.src='https://placehold.co/600x400/f1f5f9/166534?text=Article'">
+                    <div class="absolute top-4 left-4 translate-z-10" style="transform: translateZ(20px);"><span class="px-3 py-1 bg-amber-400 text-white text-xs font-black uppercase tracking-wider rounded-md shadow-lg border border-amber-300">${badgeLabel}</span></div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow translate-z-10" style="transform: translateZ(30px);">
+                    <div class="text-emerald-700 font-bold text-xs font-mono mb-3 bg-emerald-50 w-fit px-2 py-1 rounded"><span>🗓️ ${formatDate(article.pubDate)}</span></div>
+                    <h3 class="text-xl font-black text-zinc-900 mb-3 group-hover:text-amber-600 transition-colors line-clamp-2 text-lg leading-snug">${article.title}</h3>
+                    <p class="text-zinc-600 font-medium text-sm mb-6 line-clamp-3">${snippet || 'Click below to read this engaging article on Medium.'}</p>
+                    <a href="${article.link}" target="_blank" class="mt-auto text-emerald-700 font-black text-sm hover:text-amber-600 flex items-center gap-2 w-fit transition-colors bg-white border border-gray-200 px-4 py-2 rounded-lg shadow-sm hover:shadow">Read Full Blog <span class="text-lg group-hover:translate-x-1 transition-transform">→</span></a>
+                </div>
+            </article>`;
+        }
+
+        async function loadBlogs(mediumTag, buttonElement = null, badgeLabel = 'Article') {
+            currentBlogTag = mediumTag; currentBlogLabel = badgeLabel;
+            if (buttonElement) currentBlogBtn = buttonElement;
+
+            const container = document.getElementById('dynamic-blog-container');
+            const loader = document.getElementById('blog-loader');
+            const refreshIcon = document.getElementById('blog-refresh-icon');
+            
+            if (refreshIcon) refreshIcon.classList.add('spin-icon');
+
+            if (buttonElement) {
+                document.querySelectorAll('.blog-btn').forEach(btn => {
+                    btn.classList.remove('bg-amber-400', 'text-white', 'shadow-md', 'active-blog-btn', 'border-amber-500');
+                    btn.classList.add('bg-white', 'text-emerald-700', 'border-gray-200', 'shadow-sm');
+                });
+                buttonElement.classList.remove('bg-white', 'text-emerald-700', 'border-gray-200', 'shadow-sm');
+                buttonElement.classList.add('bg-amber-400', 'text-white', 'shadow-md', 'active-blog-btn', 'border-amber-500');
+            }
+
+            container.innerHTML = ''; loader.style.display = 'block';
+
+            try {
+                const cacheBuster = new Date().getTime();
+                const rssUrl = `https://medium.com/feed/tag/${mediumTag}?t=${cacheBuster}`;
+                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+                
+                const response = await fetch(apiUrl); const data = await response.json();
+                loader.style.display = 'none';
+
+                if (data.status === 'ok' && data.items && data.items.length > 0) {
+                    data.items.slice(0, 6).forEach(article => { container.innerHTML += createBlogCard(article, badgeLabel); });
+                    VanillaTilt.init(document.querySelectorAll(".dynamic-tilt"));
+                } else {
+                    container.innerHTML = `<p class="text-zinc-600 font-bold italic col-span-1 sm:col-span-2 lg:col-span-3 text-center py-10 bg-white/60 rounded-xl border border-gray-200 shadow-sm backdrop-blur-sm w-full">No blogs found for this topic right now. Please try another category.</p>`;
+                }
+            } catch (err) {
+                loader.style.display = 'none';
+                container.innerHTML = `<p class="text-red-700 font-bold italic col-span-1 sm:col-span-2 lg:col-span-3 text-center py-10 bg-red-50 border border-red-200 rounded-xl shadow-inner w-full">Network error. Failed to load blogs.</p>`;
+            } finally { if (refreshIcon) refreshIcon.classList.remove('spin-icon'); }
+        }
+
+        function refreshBlogs() { loadBlogs(currentBlogTag, currentBlogBtn, currentBlogLabel); }
+
+        // --- NEW MARKETS ASSET LOADING LOGIC ---
+        function loadMarketAsset(element, symbol) {
+            document.querySelectorAll('.markets-menu-item').forEach(el => el.classList.remove('active'));
+            if(element) element.classList.add('active');
+
+            const priceContainer = document.getElementById('price-widget-wrapper');
+            priceContainer.innerHTML = '<div class="tradingview-widget-container__widget"></div>';
+            
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js';
+            script.async = true;
+            script.textContent = JSON.stringify({
+                "symbol": symbol,
+                "width": "100%",
+                "colorTheme": "dark",
+                "isTransparent": true,
+                "locale": "en"
+            });
+            priceContainer.appendChild(script);
+
+            document.getElementById('tv_chart').innerHTML = ''; 
+            if (typeof TradingView !== 'undefined') {
+                new TradingView.widget({
+                    "autosize": true,
+                    "symbol": symbol,
+                    "interval": "D",
+                    "timezone": "Asia/Kolkata",
+                    "theme": "dark",
+                    "style": "1",
+                    "locale": "in",
+                    "enable_publishing": false,
+                    "backgroundColor": "#1e222d",
+                    "gridColor": "#2b2b43",
+                    "hide_top_toolbar": false,
+                    "hide_legend": false,
+                    "save_image": false,
+                    "container_id": "tv_chart"
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchWeather(); fetchNews();
+            
+            renderInsight();
+            
+            const defaultBtn = document.getElementById('default-blog-btn');
+            loadBlogs('life', defaultBtn, 'Trending');
+
+            // Initialize Markets Dashboard
+            const defaultMarketItem = document.querySelector('.markets-menu-item');
+            if(defaultMarketItem) {
+                loadMarketAsset(defaultMarketItem, 'FOREXCOM:NSXUSD');
+            }
+            
+            renderRandomAd();
+            setInterval(renderRandomAd, 15000);
+
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            if(btn && menu) {
+                btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+                document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => menu.classList.add('hidden')));
+            }
+        });
+
+        setInterval(fetchNews, 3600000);
+        setInterval(fetchWeather, 3600000); 
+
+        // ==========================================
+        // STUDIOKIT TOOLS LOGIC
+        // ==========================================
+        
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.sk-tool-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            document.querySelectorAll('.sk-nav-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+        }
+
+        const imageUpload = document.getElementById('imageUpload');
+        const bgColorPicker = document.getElementById('bgColor');
+        const strokeColorPicker = document.getElementById('strokeColor');
+        const strokeWidthSlider = document.getElementById('strokeWidth');
+        const strokeValText = document.getElementById('strokeVal');
+        const autoEnhanceCheckbox = document.getElementById('autoEnhance');
+        const removeBgBtn = document.getElementById('removeBgBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const errorMsg = document.getElementById('errorMsg');
+        const colorHint = document.getElementById('colorHint');
+        const previewCanvas = document.getElementById('previewCanvas');
+        const stripCanvas = document.getElementById('stripCanvas');
+        const previewCtx = previewCanvas.getContext('2d');
+        const stripCtx = stripCanvas.getContext('2d');
+
+        let currentImage = new Image();
+        let imageLoaded = false;
+
+        const photoWidth = 413; 
+        const photoHeight = 531;
+        const gap = 35; 
+        const padding = 50; 
+
+        previewCanvas.width = photoWidth;
+        previewCanvas.height = photoHeight;
+        stripCanvas.width = (photoWidth * 6) + (gap * 5) + (padding * 2);
+        stripCanvas.height = photoHeight + (padding * 2);
+
+        function setHighQuality(ctx) {
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+        }
+
+        function drawSinglePhoto(ctx, x, y, width, height) {
+            setHighQuality(ctx);
+            ctx.fillStyle = bgColorPicker.value;
+            ctx.fillRect(x, y, width, height);
+
+            if (!imageLoaded) return;
+
+            const imgRatio = currentImage.width / currentImage.height;
+            const targetRatio = width / height;
+            let sWidth = currentImage.width;
+            let sHeight = currentImage.height;
+            let sx = 0, sy = 0;
+
+            if (imgRatio > targetRatio) {
+                sWidth = currentImage.height * targetRatio;
+                sx = (currentImage.width - sWidth) / 2;
+            } else {
+                sHeight = currentImage.width / targetRatio;
+                sy = (currentImage.height - sHeight) / 2;
+            }
+
+            ctx.save();
+            if (autoEnhanceCheckbox.checked) {
+                ctx.filter = 'contrast(1.05) saturate(1.05) brightness(1.02)';
+            }
+            ctx.drawImage(currentImage, sx, sy, sWidth, sHeight, x, y, width, height);
+            ctx.restore(); 
+
+            const borderWidth = parseInt(strokeWidthSlider.value, 10);
+            if (borderWidth > 0) {
+                ctx.strokeStyle = strokeColorPicker.value;
+                ctx.lineWidth = borderWidth;
+                ctx.strokeRect(x + (borderWidth / 2), y + (borderWidth / 2), width - borderWidth, height - borderWidth);
+            }
+        }
+
+        function updateCanvases() {
+            previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+            drawSinglePhoto(previewCtx, 0, 0, photoWidth, photoHeight);
+
+            stripCtx.fillStyle = "#ffffff"; 
+            stripCtx.fillRect(0, 0, stripCanvas.width, stripCanvas.height);
+
+            if (!imageLoaded) return;
+            for (let i = 0; i < 6; i++) {
+                const startX = padding + (i * (photoWidth + gap));
+                drawSinglePhoto(stripCtx, startX, padding, photoWidth, photoHeight);
+            }
+        }
+
+        imageUpload.addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = event => {
+                    currentImage.src = event.target.result;
+                    currentImage.onload = () => {
+                        imageLoaded = true;
+                        removeBgBtn.disabled = false;
+                        removeBgBtn.innerHTML = "✨ Magic Remove Background";
+                        downloadBtn.disabled = false;
+                        errorMsg.style.display = 'none';
+                        if(colorHint) colorHint.style.display = 'block'; 
+                        updateCanvases();
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        bgColorPicker.addEventListener('input', updateCanvases);
+        strokeColorPicker.addEventListener('input', updateCanvases);
+        autoEnhanceCheckbox.addEventListener('change', updateCanvases);
+        strokeWidthSlider.addEventListener('input', e => {
+            strokeValText.innerText = e.target.value + 'px';
+            updateCanvases();
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            if (!imageLoaded) return;
+            const link = document.createElement('a');
+            link.download = 'HD-indian-passport-strip.png';
+            link.href = stripCanvas.toDataURL('image/png', 1.0);
+            link.click();
+        });
+
+        removeBgBtn.addEventListener('click', async () => {
+            const file = imageUpload.files[0];
+            if (!file) return;
+
+            const originalText = removeBgBtn.innerHTML;
+            removeBgBtn.innerHTML = "Processing AI...";
+            removeBgBtn.disabled = true;
+            errorMsg.style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('size', 'preview'); 
+            formData.append('image_file', file);
+
+            try {
+                const response = await fetch('https://api.remove.bg/v1.0/removebg', {
+                    method: 'POST',
+                    headers: { 'X-Api-Key': '3EhWSnwunWbaAyujAs9u2dRE' },
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error("API Error or Invalid File");
+
+                const blob = await response.blob();
+                currentImage.src = URL.createObjectURL(blob);
+                currentImage.onload = () => {
+                    updateCanvases();
+                    removeBgBtn.innerHTML = "✅ Background Removed";
+                    if(colorHint) colorHint.style.display = 'none';
+                };
+            } catch (error) {
+                errorMsg.innerText = `Error: Please check your API key limits.`;
+                errorMsg.style.display = 'block';
+                removeBgBtn.innerHTML = originalText;
+                removeBgBtn.disabled = false;
+            }
+        });
+
+        updateCanvases();
+
+        const toneUpload = document.getElementById('toneUpload');
+        const toneSlider = document.getElementById('toneSlider');
+        const vibranceSlider = document.getElementById('vibranceSlider');
+        const claritySlider = document.getElementById('claritySlider');
+        
+        const toneValDisplay = document.getElementById('toneValDisplay');
+        const vibranceValDisplay = document.getElementById('vibranceValDisplay');
+        const clarityValDisplay = document.getElementById('clarityValDisplay');
+        
+        const autoFairnessBtn = document.getElementById('autoFairnessBtn');
+        const downloadToneBtn = document.getElementById('downloadToneBtn');
+        const compareToneBtn = document.getElementById('compareToneBtn');
+        const toneCanvas = document.getElementById('toneCanvas');
+        const toneCtx = toneCanvas.getContext('2d');
+        const tonePlaceholderText = document.getElementById('tonePlaceholderText');
+
+        let srcToneImage = new Image();
+        let isToneImageLoaded = false;
+
+        function applyToneEnhancements(isComparing = false) {
+            if (!isToneImageLoaded) return;
+
+            toneCanvas.width = srcToneImage.width;
+            toneCanvas.height = srcToneImage.height;
+            toneCtx.clearRect(0, 0, toneCanvas.width, toneCanvas.height);
+
+            if (isComparing) {
+                toneCtx.filter = 'none';
+                toneCtx.drawImage(srcToneImage, 0, 0);
+            } else {
+                const toneVal = parseInt(toneSlider.value); 
+                const vibVal = parseInt(vibranceSlider.value); 
+                const clarVal = parseInt(claritySlider.value); 
+
+                const brightness = 100 + (toneVal * 0.35); 
+                const contrast = 100 + (clarVal * 0.5) - (toneVal * 0.05); 
+                const saturate = 100 + (vibVal * 1.0); 
+
+                toneCtx.filter = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%)`;
+                toneCtx.drawImage(srcToneImage, 0, 0);
+            }
+        }
+
+        toneUpload.addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = event => {
+                    srcToneImage.src = event.target.result;
+                    srcToneImage.onload = () => {
+                        isToneImageLoaded = true;
+                        
+                        toneSlider.disabled = false;
+                        vibranceSlider.disabled = false;
+                        claritySlider.disabled = false;
+                        autoFairnessBtn.disabled = false;
+                        downloadToneBtn.disabled = false;
+                        compareToneBtn.disabled = false;
+
+                        toneSlider.value = 0;
+                        vibranceSlider.value = 0;
+                        claritySlider.value = 0;
+                        toneValDisplay.innerText = "0";
+                        vibranceValDisplay.innerText = "0";
+                        clarityValDisplay.innerText = "0";
+
+                        tonePlaceholderText.style.display = 'none';
+                        toneCanvas.style.display = 'block';
+
+                        applyToneEnhancements();
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        toneSlider.addEventListener('input', e => {
+            toneValDisplay.innerText = e.target.value;
+            applyToneEnhancements();
+        });
+        vibranceSlider.addEventListener('input', e => {
+            vibranceValDisplay.innerText = e.target.value;
+            applyToneEnhancements();
+        });
+        claritySlider.addEventListener('input', e => {
+            clarityValDisplay.innerText = e.target.value;
+            applyToneEnhancements();
+        });
+
+        autoFairnessBtn.addEventListener('click', () => {
+            toneSlider.value = 45; 
+            vibranceSlider.value = 15; 
+            claritySlider.value = 10; 
+            
+            toneValDisplay.innerText = "45";
+            vibranceValDisplay.innerText = "15";
+            clarityValDisplay.innerText = "10";
+            
+            applyToneEnhancements();
+        });
+
+        const startCompare = () => applyToneEnhancements(true);
+        const stopCompare = () => applyToneEnhancements(false);
+        compareToneBtn.addEventListener('mousedown', startCompare);
+        compareToneBtn.addEventListener('mouseup', stopCompare);
+        compareToneBtn.addEventListener('mouseleave', stopCompare);
+        compareToneBtn.addEventListener('touchstart', startCompare);
+        compareToneBtn.addEventListener('touchend', stopCompare);
+
+        downloadToneBtn.addEventListener('click', () => {
+            if (!isToneImageLoaded) return;
+            const link = document.createElement('a');
+            link.download = 'Enhanced_Tone_Image.jpg';
+            link.href = toneCanvas.toDataURL('image/jpeg', 1.0);
+            link.click();
+        });
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+        
+        const pdfUpload = document.getElementById('pdfUpload');
+        const processPdfBtn = document.getElementById('processPdfBtn');
+        const pdfRenderCanvas = document.getElementById('pdfRenderCanvas');
+        const pdfPlaceholderText = document.getElementById('pdfPlaceholderText');
+        const downloadPdfToJpgBtn = document.getElementById('downloadPdfToJpgBtn');
+
+        pdfUpload.addEventListener('change', (e) => {
+            if(e.target.files.length > 0) {
+                processPdfBtn.disabled = false;
+            }
+        });
+
+        processPdfBtn.addEventListener('click', () => {
+            const file = pdfUpload.files[0];
+            if(!file) return;
+
+            const reader = new FileReader();
+            processPdfBtn.innerHTML = "Rendering...";
+            
+            reader.onload = async function() {
+                const typedarray = new Uint8Array(this.result);
+                try {
+                    const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                    const page = await pdf.getPage(1); 
+                    
+                    const viewport = page.getViewport({scale: 2.5}); 
+                    const context = pdfRenderCanvas.getContext('2d');
+                    
+                    pdfRenderCanvas.height = viewport.height;
+                    pdfRenderCanvas.width = viewport.width;
+                    
+                    await page.render({canvasContext: context, viewport: viewport}).promise;
+                    
+                    pdfPlaceholderText.style.display = 'none';
+                    pdfRenderCanvas.style.display = 'block';
+                    downloadPdfToJpgBtn.style.display = 'flex';
+                    processPdfBtn.innerHTML = "📄 Render PDF Page 1";
+                } catch(err) {
+                    alert("Error rendering PDF.");
+                    processPdfBtn.innerHTML = "📄 Render PDF Page 1";
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        downloadPdfToJpgBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'Converted_Page_1.jpg';
+            link.href = pdfRenderCanvas.toDataURL('image/jpeg', 0.9);
+            link.click();
+        });
+
+        const windowJsPdf = window.jspdf.jsPDF;
+        const jpgUpload = document.getElementById('jpgUpload');
+        const jpgPreviewGrid = document.getElementById('jpgPreviewGrid');
+        const generatePdfBtn = document.getElementById('generatePdfBtn');
+        
+        let uploadedImagesDataUrls = [];
+
+        jpgUpload.addEventListener('change', (e) => {
+            jpgPreviewGrid.innerHTML = '';
+            uploadedImagesDataUrls = [];
+            const files = Array.from(e.target.files);
+            
+            if(files.length > 0) {
+                generatePdfBtn.disabled = false;
+                
+                files.forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        uploadedImagesDataUrls.push(event.target.result);
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        jpgPreviewGrid.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            } else {
+                generatePdfBtn.disabled = true;
+            }
+        });
+
+        generatePdfBtn.addEventListener('click', () => {
+            if(uploadedImagesDataUrls.length === 0) return;
+            
+            generatePdfBtn.innerHTML = "Generating...";
+            
+            setTimeout(() => {
+                const pdf = new windowJsPdf('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                
+                uploadedImagesDataUrls.forEach((imgData, index) => {
+                    if (index > 0) pdf.addPage();
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const calcHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, calcHeight);
+                });
+
+                pdf.save("Compiled_Images.pdf");
+                generatePdfBtn.innerHTML = "📑 Generate & Download PDF";
+            }, 500); 
+        });
+
+        const compImgUpload = document.getElementById('compImgUpload');
+        const imgQualitySlider = document.getElementById('imgQualitySlider');
+        const imgQualityText = document.getElementById('imgQualityText');
+        const origImgSize = document.getElementById('origImgSize');
+        const newImgSize = document.getElementById('newImgSize');
+        const compImgCanvas = document.getElementById('compImgCanvas');
+        const downloadCompImgBtn = document.getElementById('downloadCompImgBtn');
+        let rawImageToCompress = new Image();
+        let currentCompressedBlob = null;
+
+        function updateCompressedImage() {
+            if(!rawImageToCompress.src) return;
+            
+            const quality = parseInt(imgQualitySlider.value) / 100;
+            const ctx = compImgCanvas.getContext('2d');
+            
+            compImgCanvas.width = rawImageToCompress.width;
+            compImgCanvas.height = rawImageToCompress.height;
+            ctx.drawImage(rawImageToCompress, 0, 0);
+
+            compImgCanvas.toBlob((blob) => {
+                currentCompressedBlob = blob;
+                newImgSize.innerText = formatBytes(blob.size);
+            }, 'image/jpeg', quality);
+        }
+
+        compImgUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if(file) {
+                origImgSize.innerText = formatBytes(file.size);
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    rawImageToCompress.src = event.target.result;
+                    rawImageToCompress.onload = () => {
+                        imgQualitySlider.disabled = false;
+                        downloadCompImgBtn.disabled = false;
+                        updateCompressedImage();
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        imgQualitySlider.addEventListener('input', (e) => {
+            imgQualityText.innerText = e.target.value + '%';
+            updateCompressedImage();
+        });
+
+        downloadCompImgBtn.addEventListener('click', () => {
+            if(!currentCompressedBlob) return;
+            const link = document.createElement('a');
+            link.download = 'Compressed_Image.jpg';
+            link.href = URL.createObjectURL(currentCompressedBlob);
+            link.click();
+        });
+
+        const compPdfUpload = document.getElementById('compPdfUpload');
+        const pdfQualitySlider = document.getElementById('pdfQualitySlider');
+        const pdfQualityText = document.getElementById('pdfQualityText');
+        const origPdfSize = document.getElementById('origPdfSize');
+        const newPdfSize = document.getElementById('newPdfSize');
+        const processCompPdfBtn = document.getElementById('processCompPdfBtn');
+        const compPdfCanvas = document.getElementById('compPdfCanvas');
+        
+        let rawPdfFile = null;
+        let originalPdfBytes = 0;
+        let activePdfDocument = null; 
+
+        compPdfUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if(file) {
+                rawPdfFile = file;
+                originalPdfBytes = file.size;
+                origPdfSize.innerText = formatBytes(file.size);
+                newPdfSize.innerText = "Analyzing PDF...";
+                
+                pdfQualitySlider.disabled = true; 
+                processCompPdfBtn.disabled = true;
+
+                const reader = new FileReader();
+                reader.onload = async function() {
+                    const typedarray = new Uint8Array(this.result);
+                    try {
+                        activePdfDocument = await pdfjsLib.getDocument(typedarray).promise;
+                        pdfQualitySlider.disabled = false;
+                        processCompPdfBtn.disabled = false;
+                        
+                        await calculatePdfEstimate();
+                    } catch(err) {
+                        newPdfSize.innerText = "Error reading PDF structure";
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        });
+
+        pdfQualitySlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            let label = "Medium";
+            if(val <= 30) label = "Low";
+            if(val >= 80) label = "High";
+            pdfQualityText.innerText = `${label} (${val}%)`;
+        });
+
+        pdfQualitySlider.addEventListener('change', async () => {
+            await calculatePdfEstimate();
+        });
+
+        async function calculatePdfEstimate() {
+            if(!activePdfDocument) return;
+            
+            newPdfSize.innerText = "Estimating...";
+            const quality = parseInt(pdfQualitySlider.value) / 100;
+
+            try {
+                const page = await activePdfDocument.getPage(1);
+                const viewport = page.getViewport({scale: 1.5}); 
+                compPdfCanvas.height = viewport.height;
+                compPdfCanvas.width = viewport.width;
+                const ctx = compPdfCanvas.getContext('2d');
+                await page.render({canvasContext: ctx, viewport: viewport}).promise;
+
+                const dataUrl = compPdfCanvas.toDataURL('image/jpeg', quality);
+                const estimatedFirstPageBytes = Math.round((dataUrl.length - 23) * 0.75); 
+                let estimatedTotalBytes = Math.floor((estimatedFirstPageBytes * activePdfDocument.numPages) * 1.05);
+
+                if(estimatedTotalBytes >= originalPdfBytes && quality < 0.9) {
+                     estimatedTotalBytes = Math.floor(originalPdfBytes * quality);
+                }
+
+                newPdfSize.innerText = "~ " + formatBytes(estimatedTotalBytes);
+
+            } catch(error) {
+                newPdfSize.innerText = "Estimation failed";
+            }
+        }
+
+        processCompPdfBtn.addEventListener('click', async () => {
+            if(!rawPdfFile || !activePdfDocument) return;
+            
+            const originalText = processCompPdfBtn.innerHTML;
+            processCompPdfBtn.innerHTML = "⚙️ Compressing... Please wait";
+            processCompPdfBtn.disabled = true;
+
+            const quality = parseInt(pdfQualitySlider.value) / 100;
+
+            try {
+                const newPdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
+                const pdfWidth = newPdf.internal.pageSize.getWidth();
+                const pdfHeight = newPdf.internal.pageSize.getHeight();
+                const ctx = compPdfCanvas.getContext('2d');
+
+                for(let i = 1; i <= activePdfDocument.numPages; i++) {
+                    const page = await activePdfDocument.getPage(i);
+                    const viewport = page.getViewport({scale: 1.5}); 
+                    
+                    compPdfCanvas.height = viewport.height;
+                    compPdfCanvas.width = viewport.width;
+                    await page.render({canvasContext: ctx, viewport: viewport}).promise;
+                    
+                    const imgData = compPdfCanvas.toDataURL('image/jpeg', quality);
+                    
+                    if(i > 1) newPdf.addPage();
+                    newPdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+                }
+
+                const outBlob = newPdf.output('blob');
+                newPdfSize.innerText = formatBytes(outBlob.size) + " (Final)";
+                
+                newPdf.save("Compressed_Document.pdf");
+                
+            } catch(err) {
+                alert("Error compressing PDF: " + err.message);
+            } finally {
+                processCompPdfBtn.innerHTML = "⚙️ Compress & Download PDF";
+                processCompPdfBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
