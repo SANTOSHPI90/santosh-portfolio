@@ -150,6 +150,12 @@
         .sk-btn-outline { background: transparent; border: 2px solid var(--sk-primary); color: var(--sk-primary); box-shadow: none;}
         .sk-btn-outline:hover:not(:disabled) { background: rgba(79, 70, 229, 0.05); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);}
 
+        /* Updated Crop & Button Grid Additions */
+        .sk-crop-menu-header { display: flex; align-items: center; gap: 8px; font-weight: 800; color: var(--sk-text-main); margin-bottom: 12px; }
+        .sk-crop-icon-svg { width: 20px; height: 20px; stroke: var(--sk-primary); }
+        .sk-button-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 640px) { .sk-button-grid { grid-template-columns: 1fr; } }
+
         .sk-workspace { display: flex; flex-direction: column; gap: 2rem; }
         .sk-preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--sk-border); padding-bottom: 1rem; }
         .sk-preview-header h2 { font-size: 1.25rem; font-weight: 700; color: var(--sk-text-main); margin:0;}
@@ -186,15 +192,16 @@
         .markets-wrapper {
             display: flex;
             flex-direction: column;
-            height: 1050px;
+            height: 800px;
             background-color: #131722;
-            border-radius: 1.5rem;
+            border-radius: 0.75rem;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.2);
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            width: 100%;
         }
         @media (min-width: 768px) {
-            .markets-wrapper { flex-direction: row; height: 800px; }
+            .markets-wrapper { flex-direction: row; border-radius: 1.5rem; }
         }
         .markets-sidebar {
             width: 100%;
@@ -205,20 +212,24 @@
             overflow-y: auto;
         }
         @media (min-width: 768px) {
-            .markets-sidebar { width: 280px; }
+            .markets-sidebar { width: 210px; } 
         }
-        .markets-sidebar-header { padding: 20px; font-size: 1.2rem; font-weight: bold; color: white; border-bottom: 1px solid #2b2b43; text-align: center; }
+        .markets-sidebar-header { padding: 15px; font-size: 1.1rem; font-weight: bold; color: white; border-bottom: 1px solid #2b2b43; text-align: center; }
         .markets-sidebar details { border-bottom: 1px solid #2b2b43; }
-        .markets-sidebar summary { padding: 15px 20px; font-size: 1.1rem; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: #ffffff; transition: background 0.2s; }
+        .markets-sidebar summary { padding: 12px 15px; font-size: 1rem; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: #ffffff; transition: background 0.2s; }
         .markets-sidebar summary:hover { background-color: #2a2e39; }
         .markets-sidebar summary::after { content: '▼'; font-size: 0.8rem; color: #787b86; }
         .markets-sidebar details[open] summary::after { content: '▲'; }
-        .markets-menu-item { padding: 12px 20px 12px 40px; cursor: pointer; font-size: 0.95rem; color: #b2b5be; transition: all 0.2s; }
-        .markets-menu-item:hover, .markets-menu-item.active { background-color: #2a2e39; color: #2962ff; border-left: 4px solid #2962ff; padding-left: 36px; }
-        .markets-main { flex: 1; display: flex; flex-direction: column; padding: 20px; gap: 20px; background-color: #131722; overflow-y: auto; }
-        .markets-widget-box { background: #1e222d; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border: 1px solid #2b2b43; overflow: hidden; }
-        .markets-price { height: 130px; }
-        .markets-chart { flex: 1; min-height: 600px; }
+        .markets-menu-item { padding: 10px 15px 10px 30px; cursor: pointer; font-size: 0.9rem; color: #b2b5be; transition: all 0.2s; }
+        .markets-menu-item:hover, .markets-menu-item.active { background-color: #2a2e39; color: #2962ff; border-left: 4px solid #2962ff; padding-left: 26px; }
+        
+        .markets-main { flex: 1; display: flex; flex-direction: column; padding: 8px 4px; gap: 10px; background-color: #131722; overflow-y: auto; overflow-x: hidden; width: 100%; box-sizing: border-box; } 
+        @media (min-width: 768px) {
+            .markets-main { padding: 20px; gap: 20px; }
+        }
+        .markets-widget-box { background: #1e222d; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border: 1px solid #2b2b43; overflow: hidden; width: 100%; box-sizing: border-box; }
+        .markets-price { height: 130px; flex-shrink: 0; }
+        .markets-chart { flex: 1; min-height: 400px; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen relative">
@@ -409,6 +420,27 @@
                                 <input type="file" id="imageUpload" accept="image/png, image/jpeg">
                             </div>
                         </div>
+                        
+                        <!-- ADDED CROP & TRANSFORM CONTROLS -->
+                        <div class="sk-control-group" id="cropControlMenu" style="background: rgba(248, 250, 252, 0.7); padding: 1.2rem; border-radius: var(--sk-radius-md); border: 1px solid var(--sk-border); margin-top: 0.5rem;">
+                            <div class="sk-crop-menu-header">
+                                <svg class="sk-crop-icon-svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.13 1L6 16a2 2 0 0 0 2 2h15"/><path d="M1 6.13L16 6a2 2 0 0 1 2 2v15"/></svg>
+                                Crop & Transform
+                            </div>
+                            <div class="sk-control-group" style="margin-bottom: 0.8rem;">
+                                <label style="font-size: 0.8rem; color: var(--sk-text-muted);">Scale / Zoom</label>
+                                <input type="range" id="passportZoom" min="0.1" max="3" step="0.01" value="1" disabled>
+                            </div>
+                            <div class="sk-control-group" style="margin-bottom: 0.8rem;">
+                                <label style="font-size: 0.8rem; color: var(--sk-text-muted);">Horizontal Offset</label>
+                                <input type="range" id="passportX" min="-500" max="500" value="0" disabled>
+                            </div>
+                            <div class="sk-control-group" style="margin-bottom: 0;">
+                                <label style="font-size: 0.8rem; color: var(--sk-text-muted);">Vertical Offset</label>
+                                <input type="range" id="passportY" min="-500" max="500" value="0" disabled>
+                            </div>
+                        </div>
+
                         <div class="sk-control-group">
                             <label for="bgColor">2. Select Background Color</label>
                             <input type="color" id="bgColor" value="#0055ff">
@@ -433,8 +465,11 @@
                             <button id="removeBgBtn" class="sk-btn-action" disabled>✨ Magic Remove Background</button>
                             <div id="errorMsg" class="sk-error-msg"></div>
                         </div>
-                        <div class="sk-control-group" style="margin-top: 0.5rem; border-top: 1px solid var(--sk-border); padding-top: 1.5rem;">
-                            <button id="downloadBtn" class="sk-btn-action sk-btn-secondary" disabled>↓ Download HD Print Strip</button>
+                        
+                        <!-- ADDED MULTI-BUTTON GRID DOWNLOAD -->
+                        <div class="sk-control-group sk-button-grid" style="margin-top: 0.5rem; border-top: 1px solid var(--sk-border); padding-top: 1.5rem;">
+                            <button id="downloadSingleBtn" class="sk-btn-action sk-btn-outline" disabled>↓ Single Photo</button>
+                            <button id="downloadBtn" class="sk-btn-action sk-btn-secondary" disabled>↓ 6-Photo Strip</button>
                         </div>
                     </div>
 
@@ -681,8 +716,9 @@
         </div>
     </section>
 
-    <section id="markets" class="max-w-6xl mx-auto px-6 py-20 w-full relative z-10">
-        <div data-aos="fade-up" class="w-full bg-[#E2E9F0]/80 backdrop-blur-md rounded-3xl p-8 md:p-12 text-center mb-10 shadow-sm border border-white/50 mx-auto max-w-5xl">
+    <!-- Modified paddings to strictly maximize mobile width -->
+    <section id="markets" class="max-w-6xl mx-auto px-2 md:px-6 py-20 w-full relative z-10">
+        <div data-aos="fade-up" class="w-full bg-[#E2E9F0]/80 backdrop-blur-md rounded-3xl p-6 md:p-12 text-center mb-10 shadow-sm border border-white/50 mx-auto max-w-5xl">
             <h2 class="text-4xl md:text-5xl font-black text-[#1F2937] mb-4 flex items-center justify-center gap-3">
                 <span class="text-amber-500 text-5xl">📈</span> Pro Markets Dashboard
             </h2>
@@ -699,7 +735,7 @@
                     <summary>Indices</summary>
                     <div class="markets-menu-item" onclick="loadMarketAsset(this, 'FOREXCOM:NSXUSD')">US 100 (Nasdaq)</div>
                     <div class="markets-menu-item" onclick="loadMarketAsset(this, 'FOREXCOM:GER40')">DAX (Germany)</div>
-                    <div class="markets-menu-item" onclick="loadMarketAsset(this, 'NSE:NIFTY')">Nifty 50</div>
+                    <div class="markets-menu-item" onclick="loadMarketAsset(this, 'NSEIX:NIFTY1!')">GIFT Nifty</div>
                     <div class="markets-menu-item" onclick="loadMarketAsset(this, 'FOREXCOM:SPXUSD')">S&P 500</div>
                     <div class="markets-menu-item" onclick="loadMarketAsset(this, 'BSE:SENSEX')">BSE Sensex</div>
                 </details>
@@ -1560,6 +1596,7 @@
             btnElement.classList.add('active');
         }
 
+        // DOM elements for passport tool
         const imageUpload = document.getElementById('imageUpload');
         const bgColorPicker = document.getElementById('bgColor');
         const strokeColorPicker = document.getElementById('strokeColor');
@@ -1568,12 +1605,18 @@
         const autoEnhanceCheckbox = document.getElementById('autoEnhance');
         const removeBgBtn = document.getElementById('removeBgBtn');
         const downloadBtn = document.getElementById('downloadBtn');
+        const downloadSingleBtn = document.getElementById('downloadSingleBtn');
         const errorMsg = document.getElementById('errorMsg');
         const colorHint = document.getElementById('colorHint');
         const previewCanvas = document.getElementById('previewCanvas');
         const stripCanvas = document.getElementById('stripCanvas');
         const previewCtx = previewCanvas.getContext('2d');
         const stripCtx = stripCanvas.getContext('2d');
+
+        // New DOM elements for Crop & Transform
+        const passportZoom = document.getElementById('passportZoom');
+        const passportX = document.getElementById('passportX');
+        const passportY = document.getElementById('passportY');
 
         let currentImage = new Image();
         let imageLoaded = false;
@@ -1600,25 +1643,34 @@
 
             if (!imageLoaded) return;
 
+            const zoom = parseFloat(passportZoom.value);
+            const offX = parseInt(passportX.value);
+            const offY = parseInt(passportY.value);
+
             const imgRatio = currentImage.width / currentImage.height;
             const targetRatio = width / height;
-            let sWidth = currentImage.width;
-            let sHeight = currentImage.height;
-            let sx = 0, sy = 0;
-
+            
+            let dW, dH;
             if (imgRatio > targetRatio) {
-                sWidth = currentImage.height * targetRatio;
-                sx = (currentImage.width - sWidth) / 2;
+                dH = height * zoom;
+                dW = dH * imgRatio;
             } else {
-                sHeight = currentImage.width / targetRatio;
-                sy = (currentImage.height - sHeight) / 2;
+                dW = width * zoom;
+                dH = dW / imgRatio;
             }
 
+            const drawX = x + (width - dW) / 2 + offX;
+            const drawY = y + (height - dH) / 2 + offY;
+
             ctx.save();
+            ctx.beginPath();
+            ctx.rect(x, y, width, height);
+            ctx.clip();
+
             if (autoEnhanceCheckbox.checked) {
                 ctx.filter = 'contrast(1.05) saturate(1.05) brightness(1.02)';
             }
-            ctx.drawImage(currentImage, sx, sy, sWidth, sHeight, x, y, width, height);
+            ctx.drawImage(currentImage, drawX, drawY, dW, dH);
             ctx.restore(); 
 
             const borderWidth = parseInt(strokeWidthSlider.value, 10);
@@ -1654,6 +1706,10 @@
                         removeBgBtn.disabled = false;
                         removeBgBtn.innerHTML = "✨ Magic Remove Background";
                         downloadBtn.disabled = false;
+                        downloadSingleBtn.disabled = false;
+                        passportZoom.disabled = false;
+                        passportX.disabled = false;
+                        passportY.disabled = false;
                         errorMsg.style.display = 'none';
                         if(colorHint) colorHint.style.display = 'block'; 
                         updateCanvases();
@@ -1663,9 +1719,11 @@
             }
         });
 
-        bgColorPicker.addEventListener('input', updateCanvases);
-        strokeColorPicker.addEventListener('input', updateCanvases);
-        autoEnhanceCheckbox.addEventListener('change', updateCanvases);
+        // Batch connect input event listeners to Canvas update
+        [bgColorPicker, strokeColorPicker, autoEnhanceCheckbox, passportZoom, passportX, passportY].forEach(el => {
+            el.addEventListener('input', updateCanvases);
+        });
+
         strokeWidthSlider.addEventListener('input', e => {
             strokeValText.innerText = e.target.value + 'px';
             updateCanvases();
@@ -1676,6 +1734,14 @@
             const link = document.createElement('a');
             link.download = 'HD-indian-passport-strip.png';
             link.href = stripCanvas.toDataURL('image/png', 1.0);
+            link.click();
+        });
+
+        downloadSingleBtn.addEventListener('click', () => {
+            if (!imageLoaded) return;
+            const link = document.createElement('a');
+            link.download = 'HD-passport-single.png';
+            link.href = previewCanvas.toDataURL('image/png', 1.0);
             link.click();
         });
 
@@ -1717,6 +1783,10 @@
         });
 
         updateCanvases();
+
+        // -----------------------------------------------------
+        // Other Tool Logics (Tone, PDF, Compress etc.)
+        // -----------------------------------------------------
 
         const toneUpload = document.getElementById('toneUpload');
         const toneSlider = document.getElementById('toneSlider');
