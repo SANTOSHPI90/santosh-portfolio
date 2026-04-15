@@ -132,9 +132,18 @@
         .sk-border-controls input[type="color"] { width: 36px; height: 36px; border-radius: 8px;}
         .sk-border-controls input[type="range"] { flex: 1; }
         
-        .studiokit-wrapper input[type="range"] { -webkit-appearance: none; width: 100%; height: 6px; background: #e2e8f0; border-radius: 5px; outline: none; margin-top: 0.5rem; }
-        .studiokit-wrapper input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--sk-primary); cursor: pointer; transition: transform 0.1s; }
-        .studiokit-wrapper input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+        /* Mobile slider adjustment: touch-action none to prevent scrolling while sliding */
+        .studiokit-wrapper input[type="range"] { 
+            -webkit-appearance: none; width: 100%; height: 6px; background: #e2e8f0; border-radius: 5px; outline: none; margin-top: 0.5rem; 
+            touch-action: none; 
+        }
+        .studiokit-wrapper input[type="range"]::-webkit-slider-thumb { 
+            -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--sk-primary); cursor: pointer; transition: transform 0.1s; 
+        }
+        .studiokit-wrapper input[type="range"]::-moz-range-thumb { 
+            width: 22px; height: 22px; border-radius: 50%; background: var(--sk-primary); cursor: pointer; border: none;
+        }
+        .studiokit-wrapper input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.1); }
 
         .sk-checkbox-group { display: flex; align-items: center; gap: 0.75rem; background: var(--sk-surface-solid); padding: 1.2rem; border-radius: var(--sk-radius-md); border: 1px solid var(--sk-border); box-shadow: var(--sk-shadow-inner);}
         .sk-checkbox-group input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--sk-primary); cursor: pointer; }
@@ -154,7 +163,14 @@
         .sk-crop-menu-header { display: flex; align-items: center; gap: 8px; font-weight: 800; color: var(--sk-text-main); margin-bottom: 12px; }
         .sk-crop-icon-svg { width: 20px; height: 20px; stroke: var(--sk-primary); }
         .sk-button-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        @media (max-width: 640px) { .sk-button-grid { grid-template-columns: 1fr; } }
+        
+        /* Crop Container logic for mobile */
+        .sk-crop-container { display: flex; gap: 15px; align-items: center; }
+        @media (max-width: 480px) { 
+            .sk-button-grid { grid-template-columns: 1fr; } 
+            .sk-crop-container { gap: 10px; }
+            #cropMiniPreview { width: 80px !important; height: 102px !important; }
+        }
 
         .sk-workspace { display: flex; flex-direction: column; gap: 2rem; }
         .sk-preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--sk-border); padding-bottom: 1rem; }
@@ -427,8 +443,8 @@
                                 <svg class="sk-crop-icon-svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.13 1L6 16a2 2 0 0 0 2 2h15"/><path d="M1 6.13L16 6a2 2 0 0 1 2 2v15"/></svg>
                                 Crop & Transform
                             </div>
-                            <div style="display: flex; gap: 15px; align-items: center;">
-                                <div style="flex: 1;">
+                            <div class="sk-crop-container">
+                                <div style="flex: 1; min-width: 0;">
                                     <div class="sk-control-group" style="margin-bottom: 0.8rem;">
                                         <label style="font-size: 0.8rem; color: var(--sk-text-muted);">Scale / Zoom</label>
                                         <input type="range" id="passportZoom" min="0.1" max="3" step="0.01" value="1" disabled>
