@@ -135,7 +135,7 @@
         /* Mobile slider adjustment: touch-action none to prevent scrolling while sliding */
         .studiokit-wrapper input[type="range"] { 
             -webkit-appearance: none; width: 100%; height: 6px; background: #e2e8f0; border-radius: 5px; outline: none; margin-top: 0.5rem; 
-            touch-action: none; 
+            touch-action: none !important; /* Force touch-action to prevent scrolling */
         }
         .studiokit-wrapper input[type="range"]::-webkit-slider-thumb { 
             -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--sk-primary); cursor: pointer; transition: transform 0.1s; 
@@ -164,12 +164,41 @@
         .sk-crop-icon-svg { width: 20px; height: 20px; stroke: var(--sk-primary); }
         .sk-button-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         
-        /* Crop Container logic for mobile */
+        /* Crop Container logic for desktop vs mobile */
         .sk-crop-container { display: flex; gap: 15px; align-items: center; }
-        @media (max-width: 480px) { 
+        .sk-crop-sliders { flex: 1; min-width: 0; }
+        .sk-crop-preview-box { flex-shrink: 0; }
+        #cropMiniPreview { background: #fff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid var(--sk-border); border-radius: 4px; display: block; }
+        
+        @media (max-width: 640px) { 
             .sk-button-grid { grid-template-columns: 1fr; } 
-            .sk-crop-container { gap: 10px; }
-            #cropMiniPreview { width: 80px !important; height: 102px !important; }
+            
+            /* Isolated and wider crop container on mobile */
+            .sk-crop-container { 
+                flex-direction: column; 
+                gap: 20px; 
+                background: rgba(255, 255, 255, 0.9); 
+                padding: 1.5rem; 
+                border-radius: var(--sk-radius-md); 
+                border: 2px dashed var(--sk-primary);
+                box-shadow: var(--sk-shadow-soft);
+            }
+            .sk-crop-sliders { 
+                width: 100%; 
+                order: 2; /* Sliders below preview */
+            }
+            .sk-crop-preview-box { 
+                width: 100%; 
+                order: 1; /* Preview above sliders */
+                display: flex; 
+                justify-content: center; 
+                padding-bottom: 1rem; 
+                border-bottom: 1px solid var(--sk-border);
+            }
+            #cropMiniPreview { 
+                width: 130px !important; 
+                height: 167px !important; 
+            }
         }
 
         .sk-workspace { display: flex; flex-direction: column; gap: 2rem; }
@@ -444,7 +473,7 @@
                                 Crop & Transform
                             </div>
                             <div class="sk-crop-container">
-                                <div style="flex: 1; min-width: 0;">
+                                <div class="sk-crop-sliders">
                                     <div class="sk-control-group" style="margin-bottom: 0.8rem;">
                                         <label style="font-size: 0.8rem; color: var(--sk-text-muted);">Scale / Zoom</label>
                                         <input type="range" id="passportZoom" min="0.1" max="3" step="0.01" value="1" disabled>
@@ -458,9 +487,9 @@
                                         <input type="range" id="passportY" min="-500" max="500" value="0" disabled>
                                     </div>
                                 </div>
-                                <div style="flex-shrink: 0;">
+                                <div class="sk-crop-preview-box">
                                     <!-- Mini preview canvas for real-time adjustments -->
-                                    <canvas id="cropMiniPreview" width="103" height="132" style="background: #fff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid var(--sk-border); border-radius: 4px; display: block;"></canvas>
+                                    <canvas id="cropMiniPreview" width="103" height="132"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -1594,6 +1623,13 @@
                 btn.addEventListener('click', () => menu.classList.toggle('hidden'));
                 document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => menu.classList.add('hidden')));
             }
+
+            // Prevent page scrolling when interacting with range sliders on mobile
+            document.querySelectorAll('input[type="range"]').forEach(slider => {
+                slider.addEventListener('touchmove', function(e) {
+                    e.preventDefault();
+                }, { passive: false });
+            });
         });
 
         setInterval(fetchNews, 3600000);
