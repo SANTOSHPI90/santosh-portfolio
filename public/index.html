@@ -423,21 +423,29 @@
                         
                         <!-- ADDED CROP & TRANSFORM CONTROLS -->
                         <div class="sk-control-group" id="cropControlMenu" style="background: rgba(248, 250, 252, 0.7); padding: 1.2rem; border-radius: var(--sk-radius-md); border: 1px solid var(--sk-border); margin-top: 0.5rem;">
-                            <div class="sk-crop-menu-header">
+                            <div class="sk-crop-menu-header" style="margin-bottom: 12px;">
                                 <svg class="sk-crop-icon-svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.13 1L6 16a2 2 0 0 0 2 2h15"/><path d="M1 6.13L16 6a2 2 0 0 1 2 2v15"/></svg>
                                 Crop & Transform
                             </div>
-                            <div class="sk-control-group" style="margin-bottom: 0.8rem;">
-                                <label style="font-size: 0.8rem; color: var(--sk-text-muted);">Scale / Zoom</label>
-                                <input type="range" id="passportZoom" min="0.1" max="3" step="0.01" value="1" disabled>
-                            </div>
-                            <div class="sk-control-group" style="margin-bottom: 0.8rem;">
-                                <label style="font-size: 0.8rem; color: var(--sk-text-muted);">Horizontal Offset</label>
-                                <input type="range" id="passportX" min="-500" max="500" value="0" disabled>
-                            </div>
-                            <div class="sk-control-group" style="margin-bottom: 0;">
-                                <label style="font-size: 0.8rem; color: var(--sk-text-muted);">Vertical Offset</label>
-                                <input type="range" id="passportY" min="-500" max="500" value="0" disabled>
+                            <div style="display: flex; gap: 15px; align-items: center;">
+                                <div style="flex: 1;">
+                                    <div class="sk-control-group" style="margin-bottom: 0.8rem;">
+                                        <label style="font-size: 0.8rem; color: var(--sk-text-muted);">Scale / Zoom</label>
+                                        <input type="range" id="passportZoom" min="0.1" max="3" step="0.01" value="1" disabled>
+                                    </div>
+                                    <div class="sk-control-group" style="margin-bottom: 0.8rem;">
+                                        <label style="font-size: 0.8rem; color: var(--sk-text-muted);">Horizontal Offset</label>
+                                        <input type="range" id="passportX" min="-500" max="500" value="0" disabled>
+                                    </div>
+                                    <div class="sk-control-group" style="margin-bottom: 0;">
+                                        <label style="font-size: 0.8rem; color: var(--sk-text-muted);">Vertical Offset</label>
+                                        <input type="range" id="passportY" min="-500" max="500" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div style="flex-shrink: 0;">
+                                    <!-- Mini preview canvas for real-time adjustments -->
+                                    <canvas id="cropMiniPreview" width="103" height="132" style="background: #fff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid var(--sk-border); border-radius: 4px; display: block;"></canvas>
+                                </div>
                             </div>
                         </div>
 
@@ -865,7 +873,7 @@
         </div>
 
         <div data-aos="fade-up" id="blog-filters" class="flex flex-wrap justify-center md:justify-start gap-2 md:gap-3 mb-8 md:mb-10 bg-white/60 p-4 rounded-2xl shadow-sm backdrop-blur-md border border-white/50 w-fit">
-            <button onclick="loadBlogs('life', this, 'Trending')" id="default-blog-btn" class="blog-btn px-4 md:px-5 py-2 bg-amber-400 text-white font-bold text-xs rounded-full cursor-pointer hover:bg-amber-500 transition shadow-md active-blog-btn hover:-translate-y-1 border border-amber-500">Trending / Interesting</button>
+            <button onclick="loadBlogs('life', this, 'Trending')" id="default-blog-btn" class="blog-btn px-4 md:px-5 py-2 bg-amber-400 text-white font-bold text-xs rounded-full cursor-pointer hover:bg-amber-50 transition shadow-md active-blog-btn hover:-translate-y-1 border border-amber-500">Trending / Interesting</button>
             <button onclick="loadBlogs('health', this, 'Health')" class="blog-btn px-4 md:px-5 py-2 bg-white text-emerald-700 font-bold border border-gray-200 text-xs rounded-full cursor-pointer hover:bg-emerald-50 transition hover:-translate-y-1 shadow-sm">Health & Food</button>
             <button onclick="loadBlogs('finance', this, 'Finance')" class="blog-btn px-4 md:px-5 py-2 bg-white text-emerald-700 font-bold border border-gray-200 text-xs rounded-full cursor-pointer hover:bg-emerald-50 transition hover:-translate-y-1 shadow-sm">Business & Finance</button>
             <button onclick="loadBlogs('politics', this, 'News')" class="blog-btn px-4 md:px-5 py-2 bg-white text-emerald-700 font-bold border border-gray-200 text-xs rounded-full cursor-pointer hover:bg-emerald-50 transition hover:-translate-y-1 shadow-sm">Current Affairs</button>
@@ -1610,8 +1618,10 @@
         const colorHint = document.getElementById('colorHint');
         const previewCanvas = document.getElementById('previewCanvas');
         const stripCanvas = document.getElementById('stripCanvas');
+        const cropMiniPreview = document.getElementById('cropMiniPreview');
         const previewCtx = previewCanvas.getContext('2d');
         const stripCtx = stripCanvas.getContext('2d');
+        const miniCtx = cropMiniPreview.getContext('2d');
 
         // New DOM elements for Crop & Transform
         const passportZoom = document.getElementById('passportZoom');
@@ -1644,8 +1654,11 @@
             if (!imageLoaded) return;
 
             const zoom = parseFloat(passportZoom.value);
-            const offX = parseInt(passportX.value);
-            const offY = parseInt(passportY.value);
+            
+            // Scale offsets based on the ratio of current drawing width to the base photoWidth (413)
+            const scaleFactor = width / photoWidth;
+            const offX = parseInt(passportX.value) * scaleFactor;
+            const offY = parseInt(passportY.value) * scaleFactor;
 
             const imgRatio = currentImage.width / currentImage.height;
             const targetRatio = width / height;
@@ -1673,7 +1686,7 @@
             ctx.drawImage(currentImage, drawX, drawY, dW, dH);
             ctx.restore(); 
 
-            const borderWidth = parseInt(strokeWidthSlider.value, 10);
+            const borderWidth = parseInt(strokeWidthSlider.value, 10) * scaleFactor;
             if (borderWidth > 0) {
                 ctx.strokeStyle = strokeColorPicker.value;
                 ctx.lineWidth = borderWidth;
@@ -1684,6 +1697,9 @@
         function updateCanvases() {
             previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
             drawSinglePhoto(previewCtx, 0, 0, photoWidth, photoHeight);
+            
+            miniCtx.clearRect(0, 0, cropMiniPreview.width, cropMiniPreview.height);
+            drawSinglePhoto(miniCtx, 0, 0, cropMiniPreview.width, cropMiniPreview.height);
 
             stripCtx.fillStyle = "#ffffff"; 
             stripCtx.fillRect(0, 0, stripCanvas.width, stripCanvas.height);
